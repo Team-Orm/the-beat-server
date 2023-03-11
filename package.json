@@ -1,0 +1,37 @@
+{
+  "name": "the-beat-server",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "jade": "~1.11.0",
+    "morgan": "~1.9.1",
+    "vary": "^1.1.2"
+  },
+  "scripts": {
+    "start": "node ./src/bin/www",
+    "dev": "NODE_ENV=development nodemon ./src/bin/www",
+    "lint:fix": "eslint --fix .",
+    "prepare": "husky install",
+    "pre-commit": "lint-staged"
+  },
+  "devDependencies": {
+    "eslint": "^8.36.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^8.7.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.2.0",
+    "nodemon": "^2.0.12",
+    "prettier": "2.8.4"
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "prettier --write ./src",
+      "eslint --fix ./src"
+    ]
+  }
+}
