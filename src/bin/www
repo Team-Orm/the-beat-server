@@ -55,11 +55,7 @@ function normalizePort(val) {
  * Event listener for HTTP server "error" event.
  */
 /**
- * Adds two numbers together.
- // eslint-disable-next-line valid-jsdoc
- * @param {int} num1 The first number.
- * @param {int} num2 The second number.
- * @returns {int} The sum of the two numbers.
+ * eslint-disable-next-line valid-jsdoc
  */
 function onError(error) {
   if (error.syscall !== "listen") {

@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
-/* GET home page. */
-router.get("/", function (req, res, next) {
-  res.send("test중입니다...");
-});
+const users = require("./users");
+const rooms = require("./rooms");
+
+router.use("/users", users);
+router.use("/rooms", rooms);
 
 module.exports = router;

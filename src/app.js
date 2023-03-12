@@ -1,11 +1,10 @@
+require("dotenv").config();
+
 const express = require("express");
 
 const app = express();
 
-app.set("view engine", "ejs");
-app.set("views", "./views");
-
-const testRouter = require("./routes/index");
+const indexRouter = require("./routes/index");
 
 app.use(require("morgan")("combined"));
 app.use(require("cookie-parser")());
@@ -14,7 +13,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(require("body-parser").urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-app.use("/", testRouter);
+const mongoose = require("mongoose");
+mongoose.connect(process.env.SECRET_mongodbID, { useNewUrlParser: true });
+const db = mongoose.connection;
+
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open", console.log.bind(console, "Connected to database.."));
+
+app.use("/api", indexRouter);
 
 app.use(function (req, res, next) {
   const err = new Error("404 Not Found");

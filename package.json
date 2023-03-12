@@ -9,7 +9,10 @@
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
     "morgan": "~1.9.1",
-    "vary": "^1.1.2"
+    "vary": "^1.1.2",
+    "mongodb": "^5.0.1",
+    "mongoose": "^6.2.8",
+    "dotenv": "^16.0.3"
   },
   "scripts": {
     "start": "node ./src/bin/www",
