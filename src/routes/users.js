@@ -15,7 +15,7 @@ router.post("/logout", async (req, res, next) => {
   }
 });
 
-router.get("/:userId", async (req, res, next) => {
+router.post("/", async (req, res, next) => {
   try {
   } catch (err) {
     next(err);
