@@ -31,7 +31,7 @@ exports.logoutUser = async (req, res, next) => {
     }
     res.clearCookie("jwt");
 
-    res.status(302).send({ result: "ok" });
+    res.status(204).send({ result: "ok" });
   } catch (err) {
     next(err);
   }
