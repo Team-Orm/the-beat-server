@@ -26,6 +26,11 @@ exports.loginUser = async (req, res, next) => {
 
 exports.logoutUser = async (req, res, next) => {
   try {
+    if (req.session) {
+      await req.session.destroy();
+    }
+    res.clearCookie("jwt");
+
     res.status(302).send({ result: "ok" });
   } catch (err) {
     next(err);
