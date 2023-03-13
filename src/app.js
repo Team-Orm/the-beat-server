@@ -1,24 +1,19 @@
 require("dotenv").config();
-
 const express = require("express");
-
 const app = express();
+const cors = require("cors");
+const connectMongoDB = require("./utils/mongoose");
 
-const indexRouter = require("./routes/index");
-
+app.use(cors());
 app.use(require("morgan")("combined"));
 app.use(require("cookie-parser")());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(require("body-parser").urlencoded({ extended: true }));
-app.use(express.static("public"));
 
-const mongoose = require("mongoose");
-mongoose.connect(process.env.SECRET_mongodbID, { useNewUrlParser: true });
-const db = mongoose.connection;
+const indexRouter = require("./routes/index");
 
-db.on("error", console.error.bind(console, "connection error:"));
-db.once("open", console.log.bind(console, "Connected to database.."));
+connectMongoDB();
 
 app.use("/api", indexRouter);
 

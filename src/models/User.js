@@ -4,7 +4,7 @@ const UserSchema = new mongoose.Schema({
   email: {
     type: String,
   },
-  nickName: {
+  nickname: {
     type: String,
   },
   photoUrl: {
