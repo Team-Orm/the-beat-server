@@ -10,16 +10,13 @@ const SongSchema = new mongoose.Schema({
   title: {
     type: String,
   },
-  audioUrl: {
+  audioURL: {
+    type: String,
+  },
+  imageURL: {
     type: String,
   },
   artist: {
-    type: String,
-  },
-  thumbnail: {
-    type: String,
-  },
-  background: {
     type: String,
   },
 });
