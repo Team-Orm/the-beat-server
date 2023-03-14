@@ -6,8 +6,7 @@ const BattleRoomSchema = new mongoose.Schema({
     ref: "Song",
   },
   createdBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    type: String,
   },
   users: {
     type: mongoose.Schema.Types.ObjectId,

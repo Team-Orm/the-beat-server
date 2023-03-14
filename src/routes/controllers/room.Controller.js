@@ -1,4 +1,5 @@
 const Song = require("../../models/Song");
+const BattleRoom = require("../../models/BattleRoom");
 const AWS = require("aws-sdk");
 const s3 = new AWS.S3();
 const BUCKET = process.env.AWS_BUCKET;
@@ -53,6 +54,22 @@ exports.getSongs = async (req, res, next) => {
     const songs = await Song.find();
 
     res.status(200).send({ result: "ok", songs });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.makeRoom = async (req, res, next) => {
+  const { song, createdBy } = req.body;
+  console.log(req.body);
+
+  try {
+    const room = await BattleRoom.create({
+      song,
+      createdBy,
+    });
+
+    res.send({ result: "ok", room });
   } catch (err) {
     next(err);
   }

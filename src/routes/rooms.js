@@ -10,13 +10,7 @@ router.get("/", async (req, res, next) => {
 });
 
 router.get("/new", roomController.getSongs);
-
-router.post("/new", async (req, res, next) => {
-  try {
-  } catch (err) {
-    next(err);
-  }
-});
+router.post("/new", roomController.makeRoom);
 
 router.get("/:roomId", async (req, res, next) => {
   try {
