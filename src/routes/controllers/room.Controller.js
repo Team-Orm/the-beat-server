@@ -74,6 +74,15 @@ exports.makeRoom = async (req, res, next) => {
   }
 };
 
+exports.getRooms = async (req, res, next) => {
+  try {
+    const rooms = await BattleRoom.find();
+    res.status(200).send({ rooms });
+  } catch (err) {
+    next(err);
+  }
+};
+
 exports.getSongData = async (req, res, next) => {
   const { roomId } = req.params;
 
