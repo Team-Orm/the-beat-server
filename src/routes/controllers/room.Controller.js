@@ -9,6 +9,16 @@ const params = {
   Prefix: PREFIX,
 };
 
+exports.getRooms = async (req, res, next) => {
+  try {
+    const rooms = await BattleRoom.find();
+
+    return res.status(200).send({ rooms });
+  } catch (err) {
+    next(err);
+  }
+};
+
 exports.getSongs = async (req, res, next) => {
   const s3Objects = await s3.listObjects(params).promise();
 
@@ -69,15 +79,6 @@ exports.makeRoom = async (req, res, next) => {
     });
 
     res.send({ result: "ok", room });
-  } catch (err) {
-    next(err);
-  }
-};
-
-exports.getRooms = async (req, res, next) => {
-  try {
-    const rooms = await BattleRoom.find();
-    res.status(200).send({ rooms });
   } catch (err) {
     next(err);
   }
