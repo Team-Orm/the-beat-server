@@ -8,6 +8,9 @@ const BattleRoomSchema = new mongoose.Schema({
   createdBy: {
     type: String,
   },
+  email: {
+    type: String,
+  },
   users: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

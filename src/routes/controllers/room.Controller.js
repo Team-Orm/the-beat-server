@@ -60,12 +60,13 @@ exports.getSongs = async (req, res, next) => {
 };
 
 exports.makeRoom = async (req, res, next) => {
-  const { song, createdBy } = req.body;
+  const { song, createdBy, email } = req.body;
 
   try {
     const room = await BattleRoom.create({
       song,
       createdBy,
+      email,
     });
 
     res.send({ result: "ok", room });
@@ -83,14 +84,14 @@ exports.getRooms = async (req, res, next) => {
   }
 };
 
-exports.getSongData = async (req, res, next) => {
+exports.getBattleData = async (req, res, next) => {
   const { roomId } = req.params;
 
   try {
     const room = await BattleRoom.findById({ _id: roomId });
     const song = await Song.findById({ _id: room.song });
 
-    res.send({ song });
+    res.send({ song, room });
   } catch (err) {
     next(err);
   }
