@@ -1,10 +1,7 @@
 const mongoose = require("mongoose");
 
 /**
- * Connects to MongoDB using the provided URI and sets the "strictQuery" option to false.
- * @function
- * @return {void}
- */
+ **/
 function connectMongoDB() {
   mongoose.set("strictQuery", false);
   mongoose.connect(process.env.SECRET_mongodbID, { useNewUrlParser: true });
