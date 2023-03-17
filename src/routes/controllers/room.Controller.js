@@ -11,7 +11,7 @@ const params = {
 
 exports.getRooms = async (req, res, next) => {
   try {
-    const rooms = await BattleRoom.find();
+    const rooms = await BattleRoom.find().populate("song");
 
     return res.status(200).send({ rooms });
   } catch (err) {
