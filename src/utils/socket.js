@@ -66,7 +66,7 @@ lobby.on("connection", (socket) => {
 });
 
 battles.on("connection", (socket) => {
-  const roomId = socket.nsp.name.split("/")[2];
+  const { roomId } = socket.handshake.query;
 
   socket.on("send-data", ({ key, score }) => {
     socket.to(roomId).emit("receive-data", key, score);

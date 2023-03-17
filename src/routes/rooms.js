@@ -7,6 +7,6 @@ router.get("/", roomController.getRooms);
 router.get("/new", roomController.getSongs);
 router.post("/new", roomController.makeRoom);
 
-router.get("/:roomId", roomController.getSongData);
+router.get("/:roomId", roomController.getBattleData);
 
 module.exports = router;
