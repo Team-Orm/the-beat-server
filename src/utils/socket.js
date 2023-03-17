@@ -1,7 +1,7 @@
 const app = require("../app");
 const http = require("http");
 const socketIO = require("socket.io");
-const Battleroom = require("../models/BattleRoom");
+const BattleRoom = require("../models/BattleRoom");
 
 const server = http.createServer(app);
 
@@ -34,7 +34,8 @@ const currentUsers = {};
 
   changeStream.on("change", async () => {
     try {
-      const rooms = await Battleroom.find();
+      const rooms = await BattleRoom.find().populate("song");
+
       io.of("/").emit("update-rooms", rooms);
     } catch (err) {
       next(err);
