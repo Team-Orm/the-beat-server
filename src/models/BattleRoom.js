@@ -4,16 +4,21 @@ const BattleRoomSchema = new mongoose.Schema({
   song: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Song",
+    required: true,
   },
   createdBy: {
     type: String,
+    required: true,
+    trim: true,
+    minlength: 2,
+    maxlength: 10,
   },
-  email: {
+  uid: {
     type: String,
-  },
-  users: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    required: true,
+    trim: true,
+    unique: true,
+    lowercase: true,
   },
 });
 

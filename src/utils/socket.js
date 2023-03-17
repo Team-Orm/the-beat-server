@@ -43,9 +43,8 @@ const currentUsers = {};
 })();
 
 lobby.on("connection", (socket) => {
-  const { userName, profile, userKey } = socket.handshake.query;
-  currentUsers[userKey] = { userName, profile, userKey };
-  console.log(Object.values(currentUsers));
+  const { name, picture, uid } = socket.handshake.query;
+  currentUsers[uid] = { name, picture, uid };
 
   socket.on("send-chat", ({ user, chat }) => {
     io.emit("broadcast-chat", user, chat);
