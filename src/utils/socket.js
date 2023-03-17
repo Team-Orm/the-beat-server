@@ -18,8 +18,8 @@ const io = socketIO(server, {
 });
 
 const lobby = io.of("/");
-const battles = io.of(/^\/battles\/.+$/);
-const currentUsers = [];
+const battles = io.of("/battles/");
+const currentUsers = {};
 
 (async () => {
   const client = await MongoClient.connect(uri, {
@@ -44,34 +44,33 @@ const currentUsers = [];
 })();
 
 lobby.on("connection", (socket) => {
-  const { userName, profile, userKey } = socket.handshake.query;
-  currentUsers.push({ userName, profile, userKey });
+  const { name, picture, uid } = socket.handshake.query;
+  currentUsers[uid] = { name, picture, uid };
 
   socket.on("send-chat", ({ user, chat }) => {
     io.emit("broadcast-chat", user, chat);
   });
 
-  io.emit("update-user", currentUsers);
+  io.emit("update-user", Object.values(currentUsers));
 
   socket.on("disconnect", () => {
     const disconnectedUser = socket.handshake.query.userKey;
-    const index = currentUsers.findIndex(
-      (userObj) => userObj.userKey === disconnectedUser,
-    );
+    delete currentUsers[disconnectedUser]; // Remove user from object
 
-    if (index !== -1) {
-      currentUsers.splice(index, 1);
-      io.emit("update-user", currentUsers);
-    }
+    io.emit("update-user", Object.values(currentUsers));
   });
 });
 
 battles.on("connection", (socket) => {
   const { roomId } = socket.handshake.query;
 
-  socket.on("send-data", ({ key, score }) => {
-    socket.to(roomId).emit("receive-data", key, score);
-  });
+  if (roomId) {
+    socket.join(roomId);
 
-  socket.on("disconnect", () => {});
+    socket.on("send-data", ({ key, score }) => {
+      socket.to(roomId).emit("receive-data", key, score);
+    });
+
+    socket.on("disconnect", () => {});
+  }
 });

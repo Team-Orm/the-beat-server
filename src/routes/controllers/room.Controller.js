@@ -13,7 +13,7 @@ exports.getRooms = async (req, res, next) => {
   try {
     const rooms = await BattleRoom.find().populate("song");
 
-    return res.status(200).send({ rooms });
+    return res.send({ rooms });
   } catch (err) {
     next(err);
   }
@@ -63,23 +63,23 @@ exports.getSongs = async (req, res, next) => {
 
     const songs = await Song.find();
 
-    res.status(200).send({ result: "ok", songs });
+    res.status(200).send({ songs });
   } catch (err) {
     next(err);
   }
 };
 
 exports.makeRoom = async (req, res, next) => {
-  const { song, createdBy, email } = req.body;
+  const { song, createdBy, uid } = req.body;
 
   try {
     const room = await BattleRoom.create({
       song,
       createdBy,
-      email,
+      uid,
     });
 
-    res.send({ result: "ok", room });
+    res.status(201).send({ room });
   } catch (err) {
     next(err);
   }
