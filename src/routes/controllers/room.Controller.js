@@ -72,11 +72,6 @@ exports.getSongs = async (req, res, next) => {
 exports.makeRoom = async (req, res, next) => {
   const { song, createdBy, uid } = req.body;
 
-  if (!mongoose.Types.ObjectId.isValid(uid)) {
-    const error = new Error("User is not found");
-    res.status(400).send({ error });
-  }
-
   try {
     const room = await BattleRoom.create({
       song,
@@ -84,7 +79,7 @@ exports.makeRoom = async (req, res, next) => {
       uid,
     });
 
-    res.send({ room });
+    res.status(201).send({ room });
   } catch (err) {
     next(err);
   }
@@ -92,11 +87,6 @@ exports.makeRoom = async (req, res, next) => {
 
 exports.getBattleData = async (req, res, next) => {
   const { roomId } = req.params;
-
-  if (!mongoose.Types.ObjectId.isValid(roomId)) {
-    const error = new Error("Room is not found");
-    res.status(400).send({ error });
-  }
 
   try {
     const room = await BattleRoom.findById({ _id: roomId });
