@@ -1,18 +1,28 @@
+require("dotenv").config();
 const app = require("../app");
 const http = require("http");
 const socketIO = require("socket.io");
 const BattleRoom = require("../models/BattleRoom");
+const {
+  UPDATE_ROOMS,
+  SEND_CHAT,
+  BROADCAST_CHAT,
+  UPDATE_USER,
+  SEND_BATTLES,
+  RECEIVE_BATTLES,
+  BEAT,
+} = require("../constants/eventName");
 
 const server = http.createServer(app);
 
 server.listen(process.env.PORT || 4000, () => {});
 
 const MongoClient = require("mongodb").MongoClient;
-const uri = process.env.SECRET_mongodbID;
+const uri = process.env.SECRET_MONGODB_ID;
 
 const io = socketIO(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: process.env.CORS_ORIGIN,
     methods: ["GET", "POST"],
   },
 });
@@ -27,7 +37,7 @@ const currentUsers = {};
     useUnifiedTopology: true,
   });
 
-  const db = client.db("test");
+  const db = client.db(BEAT);
   const collection = db.collection("battlerooms");
 
   const changeStream = collection.watch();
@@ -36,7 +46,7 @@ const currentUsers = {};
     try {
       const rooms = await BattleRoom.find().populate("song");
 
-      io.of("/").emit("update-rooms", rooms);
+      io.of("/").emit(UPDATE_ROOMS, rooms);
     } catch (err) {
       next(err);
     }
@@ -47,17 +57,17 @@ lobby.on("connection", (socket) => {
   const { name, picture, uid } = socket.handshake.query;
   currentUsers[uid] = { name, picture, uid };
 
-  socket.on("send-chat", ({ user, chat }) => {
-    io.emit("broadcast-chat", user, chat);
+  socket.on(SEND_CHAT, ({ user, chat }) => {
+    io.emit(BROADCAST_CHAT, user, chat);
   });
 
-  io.emit("update-user", Object.values(currentUsers));
+  io.emit(UPDATE_USER, Object.values(currentUsers));
 
   socket.on("disconnect", () => {
-    const disconnectedUser = socket.handshake.query.userKey;
-    delete currentUsers[disconnectedUser]; // Remove user from object
+    const { uid } = socket.handshake.query;
+    delete currentUsers[uid];
 
-    io.emit("update-user", Object.values(currentUsers));
+    io.emit(UPDATE_USER, Object.values(currentUsers));
   });
 });
 
@@ -67,8 +77,8 @@ battles.on("connection", (socket) => {
   if (roomId) {
     socket.join(roomId);
 
-    socket.on("send-data", ({ key, score }) => {
-      socket.to(roomId).emit("receive-data", key, score);
+    socket.on(SEND_BATTLES, ({ key, score }) => {
+      socket.to(roomId).emit(RECEIVE_BATTLES, key, score);
     });
 
     socket.on("disconnect", () => {});

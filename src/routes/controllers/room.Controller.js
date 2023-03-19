@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const Song = require("../../models/Song");
 const BattleRoom = require("../../models/BattleRoom");
 const AWS = require("aws-sdk");
@@ -10,6 +11,12 @@ const params = {
 };
 
 exports.getRooms = async (req, res, next) => {
+  if (!BattleRoom || !BattleRoom.schema.paths.song) {
+    return res
+      .status(500)
+      .send({ message: "BattleRoom model or song field is missing" });
+  }
+
   try {
     const rooms = await BattleRoom.find().populate("song");
 
@@ -47,17 +54,18 @@ exports.getSongs = async (req, res, next) => {
   });
 
   try {
-    // eslint-disable-next-line guard-for-in
-    for (const key in audioURLs) {
-      song = await Song.find({ title: audioURLs[key].title });
+    for (const key of Object.keys(audioURLs)) {
+      if (audioURLs.hasOwnProperty(key)) {
+        song = await Song.find({ title: audioURLs[key].title });
 
-      if (!song.length) {
-        await Song.create({
-          title: audioURLs[key].title,
-          imageURL: audioURLs[key].imageURL,
-          audioURL: audioURLs[key].audioURL,
-          artist: key.slice(key.lastIndexOf("-") + 1),
-        });
+        if (!song.length) {
+          await Song.create({
+            title: audioURLs[key].title,
+            imageURL: audioURLs[key].imageURL,
+            audioURL: audioURLs[key].audioURL,
+            artist: key.slice(key.lastIndexOf("-") + 1),
+          });
+        }
       }
     }
 
@@ -71,6 +79,10 @@ exports.getSongs = async (req, res, next) => {
 
 exports.makeRoom = async (req, res, next) => {
   const { song, createdBy, uid } = req.body;
+
+  if (!song || !createdBy || !uid) {
+    return res.status(400).send({ message: "Invalid requested body" });
+  }
 
   try {
     const room = await BattleRoom.create({
@@ -88,9 +100,20 @@ exports.makeRoom = async (req, res, next) => {
 exports.getBattleData = async (req, res, next) => {
   const { roomId } = req.params;
 
+  if (!mongoose.Types.ObjectId.isValid(roomId)) {
+    return res.status(400).send({ message: "Invalid URL" });
+  }
+
   try {
     const room = await BattleRoom.findById({ _id: roomId });
+    if (!room) {
+      return res.status(404).send({ message: "Room not found" });
+    }
+
     const song = await Song.findById({ _id: room.song });
+    if (!song) {
+      return res.status(404).send({ message: "Song not found" });
+    }
 
     res.send({ song, room });
   } catch (err) {

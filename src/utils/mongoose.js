@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
  **/
 function connectMongoDB() {
   mongoose.set("strictQuery", false);
-  mongoose.connect(process.env.SECRET_mongodbID, { useNewUrlParser: true });
+  mongoose.connect(process.env.SECRET_MONGODB_ID, { useNewUrlParser: true });
 
   const db = mongoose.connection;
 
