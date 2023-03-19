@@ -8,9 +8,9 @@ const UserSchema = new mongoose.Schema({
     minlength: 2,
     maxlength: 20,
   },
-  photoUrl: {
+  photoURL: {
     type: String,
-    required: false,
+    required: true,
     trim: true,
   },
   uid: {

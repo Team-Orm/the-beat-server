@@ -47,17 +47,18 @@ exports.getSongs = async (req, res, next) => {
   });
 
   try {
-    // eslint-disable-next-line guard-for-in
-    for (const key in audioURLs) {
-      song = await Song.find({ title: audioURLs[key].title });
+    for (const key of Object.keys(audioURLs)) {
+      if (audioURLs.hasOwnProperty(key)) {
+        song = await Song.find({ title: audioURLs[key].title });
 
-      if (!song.length) {
-        await Song.create({
-          title: audioURLs[key].title,
-          imageURL: audioURLs[key].imageURL,
-          audioURL: audioURLs[key].audioURL,
-          artist: key.slice(key.lastIndexOf("-") + 1),
-        });
+        if (!song.length) {
+          await Song.create({
+            title: audioURLs[key].title,
+            imageURL: audioURLs[key].imageURL,
+            audioURL: audioURLs[key].audioURL,
+            artist: key.slice(key.lastIndexOf("-") + 1),
+          });
+        }
       }
     }
 

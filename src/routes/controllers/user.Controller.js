@@ -14,6 +14,7 @@ exports.loginUser = async (req, res, next) => {
         photoURL,
       });
     }
+
     const users = await User.find();
 
     const token = jwt.sign({ accessToken }, process.env.SECRET_KEY);
