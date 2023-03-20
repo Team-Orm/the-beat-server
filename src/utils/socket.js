@@ -10,6 +10,8 @@ const {
   UPDATE_USER,
   SEND_BATTLES,
   RECEIVE_BATTLES,
+  CHECK_USERS,
+  USER_LEAVE,
   BEAT,
 } = require("../constants/eventName");
 
@@ -29,7 +31,8 @@ const io = socketIO(server, {
 
 const lobby = io.of("/");
 const battles = io.of("/battles/");
-const currentUsers = {};
+const lobbyCurrentUsers = {};
+const battleCurrentUsers = {};
 
 (async () => {
   const client = await MongoClient.connect(uri, {
@@ -55,32 +58,55 @@ const currentUsers = {};
 
 lobby.on("connection", (socket) => {
   const { name, picture, uid } = socket.handshake.query;
-  currentUsers[uid] = { name, picture, uid };
+  lobbyCurrentUsers[uid] = { name, picture, uid };
+
+  io.emit(CHECK_USERS, battleCurrentUsers);
 
   socket.on(SEND_CHAT, ({ user, chat }) => {
     io.emit(BROADCAST_CHAT, user, chat);
   });
 
-  io.emit(UPDATE_USER, Object.values(currentUsers));
+  io.emit(UPDATE_USER, Object.values(lobbyCurrentUsers));
 
   socket.on("disconnect", () => {
     const { uid } = socket.handshake.query;
-    delete currentUsers[uid];
+    delete lobbyCurrentUsers[uid];
 
-    io.emit(UPDATE_USER, Object.values(currentUsers));
+    io.emit(UPDATE_USER, Object.values(lobbyCurrentUsers));
   });
 });
 
 battles.on("connection", (socket) => {
-  const { roomId } = socket.handshake.query;
+  const { name, picture, uid, roomId } = socket.handshake.query;
+  user = { name, picture, uid, roomId };
+
+  const usersInRoom = battleCurrentUsers[roomId] || {};
+  usersInRoom[uid] = user;
+  battleCurrentUsers[roomId] = usersInRoom;
 
   if (roomId) {
     socket.join(roomId);
+    io.of("/").emit(CHECK_USERS, battleCurrentUsers);
+
+    socket.in(roomId).emit("user_joined", user);
+    socket.emit(UPDATE_USER, Object.values(usersInRoom));
 
     socket.on(SEND_BATTLES, ({ key, score }) => {
       socket.to(roomId).emit(RECEIVE_BATTLES, key, score);
     });
 
-    socket.on("disconnect", () => {});
+    socket.on("disconnect", () => {
+      const { uid } = socket.handshake.query;
+      delete usersInRoom[uid];
+
+      if (Object.keys(usersInRoom).length === 0) {
+        delete battleCurrentUsers[roomId];
+      } else {
+        battleCurrentUsers[roomId] = usersInRoom;
+      }
+      socket.in(roomId).emit(USER_LEAVE, user);
+      io.of("/").emit(CHECK_USERS, battleCurrentUsers);
+      io.emit(UPDATE_USER, Object.values(usersInRoom));
+    });
   }
 });
