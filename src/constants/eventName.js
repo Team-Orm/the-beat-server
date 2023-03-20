@@ -7,5 +7,6 @@ module.exports = {
   RECEIVE_BATTLES: "receive-battles",
   CHECK_USERS: "check_users",
   USER_LEAVE: "user_leave",
+  USER_JOINED: "user_joined",
   BEAT: "BEAT",
 };

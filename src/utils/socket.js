@@ -12,6 +12,7 @@ const {
   RECEIVE_BATTLES,
   CHECK_USERS,
   USER_LEAVE,
+  USER_JOINED,
   BEAT,
 } = require("../constants/eventName");
 
@@ -88,7 +89,7 @@ battles.on("connection", (socket) => {
     socket.join(roomId);
     io.of("/").emit(CHECK_USERS, battleCurrentUsers);
 
-    socket.in(roomId).emit("user_joined", user);
+    socket.in(roomId).emit(USER_JOINED, user);
     socket.emit(UPDATE_USER, Object.values(usersInRoom));
 
     socket.on(SEND_BATTLES, ({ key, score }) => {
