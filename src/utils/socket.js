@@ -78,7 +78,7 @@ lobby.on("connection", (socket) => {
 
 battles.on("connection", (socket) => {
   const { name, picture, uid, roomId } = socket.handshake.query;
-  user = { name, picture, uid, roomId };
+  const user = { name, picture, uid, roomId };
 
   const usersInRoom = battleCurrentUsers[roomId] || {};
   usersInRoom[uid] = user;
