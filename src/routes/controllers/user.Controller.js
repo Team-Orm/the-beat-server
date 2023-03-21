@@ -3,6 +3,10 @@ const jwt = require("jsonwebtoken");
 
 exports.loginUser = async (req, res, next) => {
   const { accessToken, uid, displayName, photoURL } = req.body;
+ 
+  if (!accessToken || !uid || !displayName || !photoURL) {
+    return res.status(401).send({ message: "Invalid user" });
+  }
 
   try {
     let user = await User.findOne({ uid });
@@ -14,6 +18,7 @@ exports.loginUser = async (req, res, next) => {
         photoURL,
       });
     }
+
     const users = await User.find();
 
     const token = jwt.sign({ accessToken }, process.env.SECRET_KEY);
