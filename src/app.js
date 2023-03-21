@@ -18,10 +18,12 @@ AWS.config.update({
 });
 
 const indexRouter = require("./routes/index");
+const proxyRouter = require("./routes/proxy");
 
 connectMongoDB();
 
 app.use("/api", indexRouter);
+app.use("/proxy", proxyRouter);
 
 app.use(function (req, res, next) {
   const err = new Error("404 Not Found");

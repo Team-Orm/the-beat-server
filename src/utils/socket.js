@@ -60,7 +60,6 @@ const battleCurrentUsers = {};
 lobby.on("connection", (socket) => {
   const { name, picture, uid } = socket.handshake.query;
   lobbyCurrentUsers[uid] = { name, picture, uid };
-
   io.emit(CHECK_USERS, battleCurrentUsers);
 
   socket.on(SEND_CHAT, ({ user, chat }) => {
