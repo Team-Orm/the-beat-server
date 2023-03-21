@@ -9,6 +9,16 @@ const params = {
   Prefix: PREFIX,
 };
 
+exports.getRooms = async (req, res, next) => {
+  try {
+    const rooms = await BattleRoom.find().populate("song");
+
+    return res.send({ rooms });
+  } catch (err) {
+    next(err);
+  }
+};
+
 exports.getSongs = async (req, res, next) => {
   const s3Objects = await s3.listObjects(params).promise();
 
@@ -53,35 +63,36 @@ exports.getSongs = async (req, res, next) => {
 
     const songs = await Song.find();
 
-    res.status(200).send({ result: "ok", songs });
+    res.status(200).send({ songs });
   } catch (err) {
     next(err);
   }
 };
 
 exports.makeRoom = async (req, res, next) => {
-  const { song, createdBy } = req.body;
+  const { song, createdBy, uid } = req.body;
 
   try {
     const room = await BattleRoom.create({
       song,
       createdBy,
+      uid,
     });
 
-    res.send({ result: "ok", room });
+    res.status(201).send({ room });
   } catch (err) {
     next(err);
   }
 };
 
-exports.getSongData = async (req, res, next) => {
+exports.getBattleData = async (req, res, next) => {
   const { roomId } = req.params;
 
   try {
     const room = await BattleRoom.findById({ _id: roomId });
     const song = await Song.findById({ _id: room.song });
 
-    res.send({ song });
+    res.send({ song, room });
   } catch (err) {
     next(err);
   }

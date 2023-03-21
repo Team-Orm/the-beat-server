@@ -2,15 +2,15 @@ const User = require("../../models/User");
 const jwt = require("jsonwebtoken");
 
 exports.loginUser = async (req, res, next) => {
-  const { accessToken, email, displayName, photoURL } = req.body;
+  const { accessToken, uid, displayName, photoURL } = req.body;
 
   try {
-    let user = await User.findOne({ email });
+    let user = await User.findOne({ uid });
 
     if (!user) {
       user = await User.create({
-        nickname: displayName,
-        email,
+        name: displayName,
+        uid,
         photoURL,
       });
     }
@@ -18,7 +18,7 @@ exports.loginUser = async (req, res, next) => {
 
     const token = jwt.sign({ accessToken }, process.env.SECRET_KEY);
 
-    res.status(201).send({ result: "ok", users, token });
+    res.status(201).send({ users, token });
   } catch (err) {
     next(err);
   }

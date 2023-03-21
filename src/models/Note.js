@@ -2,19 +2,25 @@ const mongoose = require("mongoose");
 
 const NoteSchema = new mongoose.Schema({
   title: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Song",
+    required: true,
   },
   time: {
     type: Number,
+    required: true,
+    default: 0,
+    min: 0,
   },
   key: {
     type: String,
+    required: true,
   },
   positionY: {
     type: Number,
-  },
-  hit: {
-    type: Boolean,
+    required: true,
+    default: 0,
+    min: 0,
   },
 });
 

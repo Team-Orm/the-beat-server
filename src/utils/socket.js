@@ -1,9 +1,14 @@
 const app = require("../app");
 const http = require("http");
 const socketIO = require("socket.io");
+const BattleRoom = require("../models/BattleRoom");
 
 const server = http.createServer(app);
+
 server.listen(process.env.PORT || 4000, () => {});
+
+const MongoClient = require("mongodb").MongoClient;
+const uri = process.env.SECRET_mongodbID;
 
 const io = socketIO(server, {
   cors: {
@@ -13,40 +18,59 @@ const io = socketIO(server, {
 });
 
 const lobby = io.of("/");
-const battles = io.of(/^\/battles\/.+$/);
+const battles = io.of("/battles/");
+const currentUsers = {};
+
+(async () => {
+  const client = await MongoClient.connect(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+
+  const db = client.db("test");
+  const collection = db.collection("battlerooms");
+
+  const changeStream = collection.watch();
+
+  changeStream.on("change", async () => {
+    try {
+      const rooms = await BattleRoom.find().populate("song");
+
+      io.of("/").emit("update-rooms", rooms);
+    } catch (err) {
+      next(err);
+    }
+  });
+})();
 
 lobby.on("connection", (socket) => {
-  const currentUser = [];
-  const { user } = socket.handshake.query;
-  currentUser.push({ user });
+  const { name, picture, uid } = socket.handshake.query;
+  currentUsers[uid] = { name, picture, uid };
 
   socket.on("send-chat", ({ user, chat }) => {
-    io.broadcast.emit("broadcast-chat", user, chat);
+    io.emit("broadcast-chat", user, chat);
   });
 
-  socket.on("send-user", () => {
-    io.broadcast.emit("update-user", currentUser);
-  });
+  io.emit("update-user", Object.values(currentUsers));
 
   socket.on("disconnect", () => {
-    const disconnectedUser = socket.handshake.query.user;
-    const index = currentUser.findIndex(
-      (userObj) => userObj.user === disconnectedUser,
-    );
+    const disconnectedUser = socket.handshake.query.userKey;
+    delete currentUsers[disconnectedUser]; // Remove user from object
 
-    if (index !== -1) {
-      currentUser.splice(index, 1);
-      io.emit("update-user", currentUser);
-    }
+    io.emit("update-user", Object.values(currentUsers));
   });
 });
 
 battles.on("connection", (socket) => {
-  const roomId = socket.nsp.name.split("/")[2];
+  const { roomId } = socket.handshake.query;
 
-  socket.on("send-data", ({ key, score }) => {
-    socket.to(roomId).emit("receive-data", key, score);
-  });
+  if (roomId) {
+    socket.join(roomId);
 
-  socket.on("disconnect", () => {});
+    socket.on("send-data", ({ key, score }) => {
+      socket.to(roomId).emit("receive-data", key, score);
+    });
+
+    socket.on("disconnect", () => {});
+  }
 });
