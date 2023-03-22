@@ -13,6 +13,7 @@ module.exports = {
   },
   rules: {
     "new-cap": "off",
+    "require-jsdoc": "off",
   },
   ignorePatterns: ["!.eslintrc.js", "!.prettierrc.json"],
 };

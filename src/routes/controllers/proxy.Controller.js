@@ -13,8 +13,6 @@ exports.getBuffer = async (req, res, next) => {
         responseType: "arraybuffer",
       });
 
-      console.log(response.data);
-
       res.set("Content-Type", "audio/mpeg");
       res.send(response.data);
     }
