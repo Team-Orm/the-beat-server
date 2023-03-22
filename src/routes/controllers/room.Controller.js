@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Song = require("../../models/Song");
 const BattleRoom = require("../../models/BattleRoom");
+const Note = require("../../models/Note");
 const AWS = require("aws-sdk");
 const s3 = new AWS.S3();
 const BUCKET = process.env.AWS_BUCKET;
@@ -115,7 +116,12 @@ exports.getBattleData = async (req, res, next) => {
       return res.status(404).send({ message: "Song not found" });
     }
 
-    res.send({ song, room });
+    const note = await Note.findOne({ title: song.title });
+    if (!note) {
+      return res.status(404).send({ message: "Note not found" });
+    }
+
+    res.send({ song, room, note });
   } catch (err) {
     next(err);
   }
