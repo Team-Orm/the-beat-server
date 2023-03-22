@@ -32,7 +32,7 @@ const io = socketIO(server, {
 
 const lobby = io.of("/");
 const battles = io.of("/battles/");
-const lobbyCurrentUsers = {};
+let lobbyUsers = {};
 const battleCurrentUsers = {};
 
 (async () => {
@@ -58,55 +58,68 @@ const battleCurrentUsers = {};
 })();
 
 lobby.on("connection", (socket) => {
-  const { name, picture, uid } = socket.handshake.query;
-  lobbyCurrentUsers[uid] = { name, picture, uid };
+  const { displayName, photoURL, uid } = JSON.parse(
+    socket.handshake.query.user,
+  );
+
+  if (!lobbyUsers[uid]) {
+    lobbyUsers = {
+      ...lobbyUsers,
+      [uid]: { displayName, photoURL },
+    };
+  }
+  io.emit(UPDATE_USER, Object.values(lobbyUsers));
   io.emit(CHECK_USERS, battleCurrentUsers);
 
   socket.on(SEND_CHAT, ({ user, chat }) => {
     io.emit(BROADCAST_CHAT, user, chat);
   });
 
-  io.emit(UPDATE_USER, Object.values(lobbyCurrentUsers));
-
   socket.on("disconnect", () => {
-    const { uid } = socket.handshake.query;
-    delete lobbyCurrentUsers[uid];
+    const { uid } = JSON.parse(socket.handshake.query.user);
+    delete lobbyUsers[uid];
 
-    io.emit(UPDATE_USER, Object.values(lobbyCurrentUsers));
+    io.emit(UPDATE_USER, Object.values(lobbyUsers));
   });
 });
 
 battles.on("connection", (socket) => {
-  const { name, picture, uid, roomId } = socket.handshake.query;
-  const user = { name, picture, uid, roomId };
+  const { displayName, picture, uid, roomId } = socket.handshake.query;
+  const user = { displayName, picture, uid, roomId };
 
-  const usersInRoom = battleCurrentUsers[roomId] || {};
-  usersInRoom[uid] = user;
-  battleCurrentUsers[roomId] = usersInRoom;
+  socket.join(roomId);
 
-  if (roomId) {
-    socket.join(roomId);
-    io.of("/").emit(CHECK_USERS, battleCurrentUsers);
+  const usersInRoom = { ...battleCurrentUsers[roomId], [uid]: user };
+  const updatedBattleCurrentUsers = {
+    ...battleCurrentUsers,
+    [roomId]: usersInRoom,
+  };
 
-    socket.in(roomId).emit(USER_JOINED, user);
-    socket.emit(UPDATE_USER, Object.values(usersInRoom));
+  socket.on(USER_JOINED, (id, displayName) => {
+    if (!id) {
+      return;
+    }
 
-    socket.on(SEND_BATTLES, ({ key, score }) => {
-      socket.to(roomId).emit(RECEIVE_BATTLES, key, score);
-    });
+    socket.to(roomId).emit(UPDATE_USER, displayName);
+  });
 
-    socket.on("disconnect", () => {
-      const { uid } = socket.handshake.query;
-      delete usersInRoom[uid];
+  socket.emit(UPDATE_USER, Object.values(usersInRoom));
 
-      if (Object.keys(usersInRoom).length === 0) {
-        delete battleCurrentUsers[roomId];
-      } else {
-        battleCurrentUsers[roomId] = usersInRoom;
-      }
-      socket.in(roomId).emit(USER_LEAVE, user);
-      io.of("/").emit(CHECK_USERS, battleCurrentUsers);
-      io.emit(UPDATE_USER, Object.values(usersInRoom));
-    });
-  }
+  socket.on(SEND_BATTLES, ({ key, score }) => {
+    socket.to(roomId).emit(RECEIVE_BATTLES, key, score);
+  });
+
+  socket.on("disconnect", () => {
+    const { uid } = socket.handshake.query;
+    delete usersInRoom[uid];
+
+    if (Object.keys(usersInRoom).length === 0) {
+      delete updatedBattleCurrentUsers[roomId];
+    } else {
+      updatedBattleCurrentUsers[roomId] = usersInRoom;
+    }
+    socket.in(roomId).emit(USER_LEAVE, user);
+    io.of("/").emit(CHECK_USERS, updatedBattleCurrentUsers);
+    io.emit(UPDATE_USER, Object.values(usersInRoom));
+  });
 });
