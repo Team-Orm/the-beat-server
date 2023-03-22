@@ -3,10 +3,7 @@ module.exports = {
   SEND_CHAT: "send-chat",
   BROADCAST_CHAT: "broadcast-chat",
   UPDATE_USER: "update-user",
-  SEND_BATTLES: "send-battles",
-  RECEIVE_BATTLES: "receive-battles",
-  CHECK_USERS: "check_users",
-  USER_LEAVE: "user_leave",
-  USER_JOINED: "user_joined",
+  LOBBY_ROOMS: "lobby_rooms",
   BEAT: "BEAT",
+  RECEIVE_LOBBY_USERS: "receive-lobby-users",
 };
