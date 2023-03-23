@@ -48,6 +48,7 @@ const io = socketIO(server, {
 });
 
 const battles = io.of("/battles/");
+const results = io.of("/results/");
 const battleRooms = {};
 const usersInRoom = {};
 let lobbyUsers = {};
@@ -178,5 +179,20 @@ battles.on("connection", (socket) => {
 
     socket.to(roomId).emit(USER_LEFT, uid);
     socket.to(roomId).emit(RECEIVE_BATTLES, null);
+  });
+});
+
+results.on("connection", (socket) => {
+  const { photoURL, displayName, uid, resultId } = socket.handshake.query;
+  socket.join(resultId);
+
+  const user = { photoURL, displayName, uid };
+
+  socket.on("send-results", (comboResults, totalScore) => {
+    socket.to(resultId).emit("receive-results", comboResults, totalScore, user);
+  });
+
+  socket.on("disconnect", () => {
+    // socket.emit("user-out");
   });
 });
