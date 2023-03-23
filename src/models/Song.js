@@ -1,12 +1,6 @@
 const mongoose = require("mongoose");
 
 const SongSchema = new mongoose.Schema({
-  notes: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Note",
-    },
-  ],
   title: {
     type: String,
     required: true,
