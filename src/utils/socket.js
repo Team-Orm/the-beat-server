@@ -26,8 +26,8 @@ const {
   RECEIVE_READY,
   SEND_BATTLES,
   RECEIVE_BATTLES,
-  SEND_RESULT,
   FROM_BATTLEROOM,
+  SEND_USER,
   USER_LEFT,
 } = require("../constants/eventName");
 
@@ -167,10 +167,6 @@ battles.on("connection", (socket) => {
     socket.to(roomId).emit(RECEIVE_BATTLES, score, combo, word);
   });
 
-  socket.on(SEND_RESULT, (totalScore, combo, uid, photoURL, displayName) => {
-    socket.to(roomId).emit(RECEIVE_BATTLES, score, combo, word);
-  });
-
   io.of("/").emit(FROM_BATTLEROOM, convertedRooms);
 
   socket.on("disconnect", () => {
@@ -181,5 +177,6 @@ battles.on("connection", (socket) => {
     usersInRoom[roomId] = usersInRoom[roomId].filter((u) => u.uid !== uid);
 
     socket.to(roomId).emit(USER_LEFT, uid);
+    socket.to(roomId).emit(RECEIVE_BATTLES, null);
   });
 });

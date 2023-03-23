@@ -15,7 +15,6 @@ module.exports = {
   SEND_START: "send-start",
   SEND_READY: "send-ready",
   SEND_BATTLES: "send-battles",
-  SEND_RESULT: "send-result",
   FROM_BATTLEROOM: "from-battleroom",
   RECEIVE_BATTLES: "receive-battles",
   RECEIVE_READY: "receive-ready",
