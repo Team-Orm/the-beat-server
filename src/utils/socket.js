@@ -29,6 +29,8 @@ const {
   FROM_BATTLEROOM,
   SEND_USER,
   USER_LEFT,
+  SEND_RESULTS,
+  RECEIVE_RESULTS,
 } = require("../constants/eventName");
 
 const server = http.createServer(app);
@@ -188,11 +190,9 @@ results.on("connection", (socket) => {
 
   const user = { photoURL, displayName, uid };
 
-  socket.on("send-results", (comboResults, totalScore) => {
-    socket.to(resultId).emit("receive-results", comboResults, totalScore, user);
+  socket.on(SEND_RESULTS, (comboResults, totalScore) => {
+    socket.to(resultId).emit(RECEIVE_RESULTS, comboResults, totalScore, user);
   });
 
-  socket.on("disconnect", () => {
-    // socket.emit("user-out");
-  });
+  socket.on("disconnect", () => {});
 });

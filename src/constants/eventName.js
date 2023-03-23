@@ -24,4 +24,6 @@ module.exports = {
   RECEIVE_OPPONENT_KEY_PRESS: "receive-opponent-key-press",
   RECEIVE_DELETE: "receive-delete",
   USER_LEFT: "user-left",
+  SEND_RESULTS: "send-results",
+  RECEIVE_RESULTS: "receive-results",
 };
