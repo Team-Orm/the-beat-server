@@ -11,6 +11,24 @@ const {
   LOBBY_ROOMS,
   BEAT,
   RECEIVE_LOBBY_USERS,
+  ROOM_FULL,
+  SEND_CONNECT,
+  DELETE_ROOM,
+  RECEIVE_DELETE,
+  OPPONENT_KEY_PRESS,
+  RECEIVE_OPPONENT_KEY_PRESS,
+  OPPONENT_KEY_RELEASE,
+  RECEIVE_OPPONENT_KEY_RELEASE,
+  RECEIVE_USER,
+  SEND_START,
+  RECEIVE_START,
+  SEND_READY,
+  RECEIVE_READY,
+  SEND_BATTLES,
+  RECEIVE_BATTLES,
+  SEND_RESULT,
+  FROM_BATTLEROOM,
+  USER_LEFT,
 } = require("../constants/eventName");
 
 const server = http.createServer(app);
@@ -102,7 +120,7 @@ battles.on("connection", (socket) => {
   battleRooms[roomId] = room;
 
   if (room.users.size > 2) {
-    socket.emit("room-full");
+    socket.emit(ROOM_FULL);
     socket.leave(roomId);
     return;
   }
@@ -117,15 +135,43 @@ battles.on("connection", (socket) => {
   }
   usersInRoom[roomId].push(user);
 
-  socket.on("send-connect", () => {
+  socket.on(SEND_CONNECT, () => {
     io.emit(LOBBY_ROOMS, convertedRooms);
   });
 
-  socket.on("send-user", () => {
-    socket.to(roomId).emit("receive-user", usersInRoom[roomId]);
+  socket.on(DELETE_ROOM, () => {
+    socket.to(roomId).emit(RECEIVE_DELETE);
   });
 
-  io.of("/").emit("from-battleroom", convertedRooms);
+  socket.on(OPPONENT_KEY_PRESS, (key) => {
+    socket.to(roomId).emit(RECEIVE_OPPONENT_KEY_PRESS, key);
+  });
+
+  socket.on(OPPONENT_KEY_RELEASE, (key) => {
+    socket.to(roomId).emit(RECEIVE_OPPONENT_KEY_RELEASE, key);
+  });
+
+  socket.on(SEND_USER, () => {
+    socket.to(roomId).emit(RECEIVE_USER, usersInRoom[roomId]);
+  });
+
+  socket.on(SEND_START, () => {
+    socket.to(roomId).emit(RECEIVE_START);
+  });
+
+  socket.on(SEND_READY, () => {
+    socket.to(roomId).emit(RECEIVE_READY);
+  });
+
+  socket.on(SEND_BATTLES, (score, combo, word) => {
+    socket.to(roomId).emit(RECEIVE_BATTLES, score, combo, word);
+  });
+
+  socket.on(SEND_RESULT, (totalScore, combo, uid, photoURL, displayName) => {
+    socket.to(roomId).emit(RECEIVE_BATTLES, score, combo, word);
+  });
+
+  io.of("/").emit(FROM_BATTLEROOM, convertedRooms);
 
   socket.on("disconnect", () => {
     const { uid, roomId } = socket.handshake.query;
@@ -134,7 +180,6 @@ battles.on("connection", (socket) => {
 
     usersInRoom[roomId] = usersInRoom[roomId].filter((u) => u.uid !== uid);
 
-    socket.to(roomId).emit("user-left", uid);
-    socket.to(roomId).emit("receive-battle", null);
+    socket.to(roomId).emit(USER_LEFT, uid);
   });
 });

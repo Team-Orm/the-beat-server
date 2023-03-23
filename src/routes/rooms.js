@@ -9,5 +9,6 @@ router.get("/new", verifyToken, roomController.getSongs);
 router.post("/new", verifyToken, roomController.makeRoom);
 
 router.get("/:roomId", verifyToken, roomController.getBattleData);
+router.delete("/:roomId", verifyToken, roomController.deleteBattleRoom);
 
 module.exports = router;
