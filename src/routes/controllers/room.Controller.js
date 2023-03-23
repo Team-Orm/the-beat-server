@@ -126,3 +126,19 @@ exports.getBattleData = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.deleteBattleRoom = async (req, res, next) => {
+  const { roomId } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(roomId)) {
+    return res.status(400).send({ message: "Invalid URL" });
+  }
+
+  try {
+    await BattleRoom.findByIdAndDelete({ _id: roomId });
+
+    res.status(204).send({ result: "delete" });
+  } catch (err) {
+    next(err);
+  }
+};

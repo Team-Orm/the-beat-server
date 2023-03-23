@@ -4,7 +4,7 @@ function verifyToken(req, res, next) {
   const auth = req.headers["authorization"];
 
   if (!auth) {
-    return res.status(403).send({ error: "unauthorized" });
+    return res.status(403).send({ message: "Unauthorized user" });
   }
 
   const token = auth.split(" ")[1];
@@ -15,7 +15,7 @@ function verifyToken(req, res, next) {
 
     next();
   } catch (err) {
-    return res.status(403).send({ message: "unauthorized" });
+    return res.status(403).send({ message: "Unauthorized user" });
   }
 }
 

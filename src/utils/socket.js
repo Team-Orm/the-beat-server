@@ -8,17 +8,34 @@ const {
   SEND_CHAT,
   BROADCAST_CHAT,
   UPDATE_USER,
+  LOBBY_ROOMS,
+  BEAT,
+  RECEIVE_LOBBY_USERS,
+  ROOM_FULL,
+  SEND_CONNECT,
+  DELETE_ROOM,
+  RECEIVE_DELETE,
+  OPPONENT_KEY_PRESS,
+  RECEIVE_OPPONENT_KEY_PRESS,
+  OPPONENT_KEY_RELEASE,
+  RECEIVE_OPPONENT_KEY_RELEASE,
+  RECEIVE_USER,
+  SEND_START,
+  RECEIVE_START,
+  SEND_READY,
+  RECEIVE_READY,
   SEND_BATTLES,
   RECEIVE_BATTLES,
-  CHECK_USERS,
-  USER_LEAVE,
-  USER_JOINED,
-  BEAT,
+  FROM_BATTLEROOM,
+  SEND_USER,
+  USER_LEFT,
 } = require("../constants/eventName");
 
 const server = http.createServer(app);
 
-server.listen(process.env.PORT || 4000, () => {});
+server.listen(process.env.PORT || 4000, () => {
+  console.log(`Server is running on port ${process.env.PORT || 4000}`);
+});
 
 const MongoClient = require("mongodb").MongoClient;
 const uri = process.env.SECRET_MONGODB_ID;
@@ -30,10 +47,10 @@ const io = socketIO(server, {
   },
 });
 
-const lobby = io.of("/");
 const battles = io.of("/battles/");
-const lobbyCurrentUsers = {};
-const battleCurrentUsers = {};
+const battleRooms = {};
+const usersInRoom = {};
+let lobbyUsers = {};
 
 (async () => {
   const client = await MongoClient.connect(uri, {
@@ -57,56 +74,109 @@ const battleCurrentUsers = {};
   });
 })();
 
-lobby.on("connection", (socket) => {
-  const { name, picture, uid } = socket.handshake.query;
-  lobbyCurrentUsers[uid] = { name, picture, uid };
-  io.emit(CHECK_USERS, battleCurrentUsers);
+io.on("connection", (socket) => {
+  const { displayName, photoURL, uid } = socket.handshake.query;
+  socket.join(uid);
+
+  if (!lobbyUsers[uid]) {
+    lobbyUsers = {
+      ...lobbyUsers,
+      [uid]: { displayName, photoURL },
+    };
+  }
+
+  const convertedRooms = Object.keys(battleRooms).reduce((acc, key) => {
+    acc[key] = { users: Array.from(battleRooms[key].users) };
+    return acc;
+  }, {});
+
+  io.emit(LOBBY_ROOMS, convertedRooms);
+
+  socket.on(RECEIVE_LOBBY_USERS, () => {
+    io.emit(LOBBY_ROOMS, convertedRooms);
+    io.emit(UPDATE_USER, Object.values(lobbyUsers));
+  });
 
   socket.on(SEND_CHAT, ({ user, chat }) => {
     io.emit(BROADCAST_CHAT, user, chat);
   });
 
-  io.emit(UPDATE_USER, Object.values(lobbyCurrentUsers));
-
   socket.on("disconnect", () => {
     const { uid } = socket.handshake.query;
-    delete lobbyCurrentUsers[uid];
+    delete lobbyUsers[uid];
 
-    io.emit(UPDATE_USER, Object.values(lobbyCurrentUsers));
+    io.emit(UPDATE_USER, Object.values(lobbyUsers));
   });
 });
 
 battles.on("connection", (socket) => {
-  const { name, picture, uid, roomId } = socket.handshake.query;
-  const user = { name, picture, uid, roomId };
+  const { photoURL, displayName, uid, roomId } = socket.handshake.query;
+  socket.join(roomId);
 
-  const usersInRoom = battleCurrentUsers[roomId] || {};
-  usersInRoom[uid] = user;
-  battleCurrentUsers[roomId] = usersInRoom;
+  const user = { photoURL, displayName, uid };
 
-  if (roomId) {
-    socket.join(roomId);
-    io.of("/").emit(CHECK_USERS, battleCurrentUsers);
+  const room = battleRooms[roomId] || { users: new Set() };
+  room.users.add(uid);
+  battleRooms[roomId] = room;
 
-    socket.in(roomId).emit(USER_JOINED, user);
-    socket.emit(UPDATE_USER, Object.values(usersInRoom));
-
-    socket.on(SEND_BATTLES, ({ key, score }) => {
-      socket.to(roomId).emit(RECEIVE_BATTLES, key, score);
-    });
-
-    socket.on("disconnect", () => {
-      const { uid } = socket.handshake.query;
-      delete usersInRoom[uid];
-
-      if (Object.keys(usersInRoom).length === 0) {
-        delete battleCurrentUsers[roomId];
-      } else {
-        battleCurrentUsers[roomId] = usersInRoom;
-      }
-      socket.in(roomId).emit(USER_LEAVE, user);
-      io.of("/").emit(CHECK_USERS, battleCurrentUsers);
-      io.emit(UPDATE_USER, Object.values(usersInRoom));
-    });
+  if (room.users.size > 2) {
+    socket.emit(ROOM_FULL);
+    socket.leave(roomId);
+    return;
   }
+
+  const convertedRooms = Object.keys(battleRooms).reduce((acc, key) => {
+    acc[key] = { users: Array.from(battleRooms[key].users) };
+    return acc;
+  }, {});
+
+  if (!usersInRoom[roomId]) {
+    usersInRoom[roomId] = [];
+  }
+  usersInRoom[roomId].push(user);
+
+  socket.on(SEND_CONNECT, () => {
+    io.emit(LOBBY_ROOMS, convertedRooms);
+  });
+
+  socket.on(DELETE_ROOM, () => {
+    socket.to(roomId).emit(RECEIVE_DELETE);
+  });
+
+  socket.on(OPPONENT_KEY_PRESS, (key) => {
+    socket.to(roomId).emit(RECEIVE_OPPONENT_KEY_PRESS, key);
+  });
+
+  socket.on(OPPONENT_KEY_RELEASE, (key) => {
+    socket.to(roomId).emit(RECEIVE_OPPONENT_KEY_RELEASE, key);
+  });
+
+  socket.on(SEND_USER, () => {
+    socket.to(roomId).emit(RECEIVE_USER, usersInRoom[roomId]);
+  });
+
+  socket.on(SEND_START, () => {
+    socket.to(roomId).emit(RECEIVE_START);
+  });
+
+  socket.on(SEND_READY, () => {
+    socket.to(roomId).emit(RECEIVE_READY);
+  });
+
+  socket.on(SEND_BATTLES, (score, combo, word) => {
+    socket.to(roomId).emit(RECEIVE_BATTLES, score, combo, word);
+  });
+
+  io.of("/").emit(FROM_BATTLEROOM, convertedRooms);
+
+  socket.on("disconnect", () => {
+    const { uid, roomId } = socket.handshake.query;
+    room.users.delete(uid);
+    battleRooms[roomId] = room;
+
+    usersInRoom[roomId] = usersInRoom[roomId].filter((u) => u.uid !== uid);
+
+    socket.to(roomId).emit(USER_LEFT, uid);
+    socket.to(roomId).emit(RECEIVE_BATTLES, null);
+  });
 });
