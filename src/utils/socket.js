@@ -29,6 +29,8 @@ const {
   FROM_BATTLEROOM,
   SEND_USER,
   USER_LEFT,
+  SEND_RESULTS,
+  RECEIVE_RESULTS,
 } = require("../constants/eventName");
 
 const server = http.createServer(app);
@@ -48,6 +50,7 @@ const io = socketIO(server, {
 });
 
 const battles = io.of("/battles/");
+const results = io.of("/results/");
 const battleRooms = {};
 const usersInRoom = {};
 let lobbyUsers = {};
@@ -179,4 +182,17 @@ battles.on("connection", (socket) => {
     socket.to(roomId).emit(USER_LEFT, uid);
     socket.to(roomId).emit(RECEIVE_BATTLES, null);
   });
+});
+
+results.on("connection", (socket) => {
+  const { photoURL, displayName, uid, resultId } = socket.handshake.query;
+  socket.join(resultId);
+
+  const user = { photoURL, displayName, uid };
+
+  socket.on(SEND_RESULTS, (comboResults, totalScore) => {
+    socket.to(resultId).emit(RECEIVE_RESULTS, comboResults, totalScore, user);
+  });
+
+  socket.on("disconnect", () => {});
 });
