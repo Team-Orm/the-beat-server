@@ -5,7 +5,7 @@ const cors = require("cors");
 const AWS = require("aws-sdk");
 const connectMongoDB = require("./utils/mongoose");
 
-app.use(cors({ origin: "http://localhost:3000" }));
+app.use(cors({ origin: "*" }));
 app.use(require("morgan")("combined"));
 app.use(require("cookie-parser")());
 app.use(express.json());
