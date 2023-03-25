@@ -1,53 +1,71 @@
 const request = require("supertest");
 const app = require("../../src/app");
-const User = require("../../src/models/User");
 const jwt = require("jsonwebtoken");
-const secretKey = process.env.SECRET_KEY;
+const User = require("../../src/models/User");
+const mongoMemoryServer = require("../../mongoMemoryServer");
 
 describe("POST /api/users/login", () => {
-  let createdUser;
+  beforeAll(async () => {
+    await mongoMemoryServer.connect();
+  });
 
   afterAll(async () => {
-    await User.findByIdAndDelete(createdUser.uid);
+    await mongoMemoryServer.closeDatabase();
   });
 
-  describe("when user data is valid", () => {
-    it("returns a 201 response with all users and a token if the user does not already exist", async () => {
-      const accessToken = jwt.sign(
-        { uid: "641df1ac5bfa32a524169098" },
-        secretKey,
-      );
+  afterEach(async () => {
+    await User.deleteMany({});
+  });
 
-      const response = await request(app).post("/api/users/login").send({
-        accessToken,
-        uid: "641df1ac5bfa32a524169098",
-        displayName: "Charlie Brown",
-        photoURL: "https://www.peanuts.com/sites/default/files/cb-color.jpg",
-      });
+  const mockUser = {
+    uid: "641df1ac5bfa32a524169098",
+    name: "Charlie Brown",
+    photoURL: "https://www.peanuts.com/sites/default/files/cb-color.jpg",
+  };
 
-      expect(response.status).toBe(201);
-      expect(response.body.users).toBeDefined();
-      expect(response.body.token).toBeDefined();
-
-      createdUser = await User.findOne({ uid: "641df1ac5bfa32a524169098" });
-      expect(createdUser).toBeDefined();
-      expect(createdUser.name).toBe("Charlie Brown");
-      expect(createdUser.photoURL).toBe(
-        "https://www.peanuts.com/sites/default/files/cb-color.jpg",
-      );
+  jest.mock("../../src/routes/middlewares/verifyToken", () => {
+    return jest.fn((req, res, next) => {
+      req.user = { accessToken: "mocked-token" };
+      next();
     });
   });
 
-  describe("when user data is invalid", () => {
-    it("returns a 401 response with an error message if any of user data is missing", async () => {
-      const response = await request(app).post("/api/users/login").send({
-        uid: "641df1ac5bfa32a524169098",
-        displayName: "Charlie Brown",
-        photoURL: "https://www.peanuts.com/sites/default/files/cb-color.jpg",
-      });
+  it("returns a 201 response with all users and a token if the user does not exist", async () => {
+    jest.spyOn(jwt, "sign").mockReturnValue("mocked-token");
+    const user = new User(mockUser);
+    await user.save();
 
-      expect(response.status).toBe(401);
-      expect(response.body).toEqual({ message: "Invalid user" });
+    const response = await request(app)
+      .post("/api/users/login")
+      .send({
+        accessToken: "mocked-access-token",
+        uid: mockUser.uid,
+        displayName: mockUser.name,
+        photoURL: mockUser.photoURL,
+      })
+      .set("Authorization", "Bearer mocked-token")
+      .set("Content-Type", "application/json")
+      .set("Accept", "application/json");
+
+    expect(response.status).toEqual(201);
+    expect(response.body.users).toBeDefined();
+    expect(response.body.token).toEqual("mocked-token");
+
+    const users = await User.find({});
+    expect(users.length).toEqual(1);
+    expect(users[0].uid).toEqual(mockUser.uid);
+    expect(users[0].name).toEqual(mockUser.name);
+    expect(users[0].photoURL).toEqual(mockUser.photoURL);
+  });
+
+  it("return a 401 response with an error message if any of user data is missing", async () => {
+    const response = await request(app).post("/api/users/login").send({
+      uid: mockUser.uid,
+      displayName: mockUser.name,
+      photoURL: mockUser.photoURL,
     });
+
+    expect(response.status).toEqual(401);
+    expect(response.body).toEqual({ message: "Invalid user" });
   });
 });
