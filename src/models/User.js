@@ -18,6 +18,14 @@ const UserSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
+  password: {
+    type: String,
+    trim: true,
+  },
+  token: {
+    type: String,
+    trim: true,
+  },
 });
 
 module.exports = mongoose.model("User", UserSchema);
