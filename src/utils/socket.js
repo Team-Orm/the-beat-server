@@ -53,7 +53,7 @@ const battles = io.of("/battles/");
 const results = io.of("/results/");
 const battleRooms = {};
 const usersInRoom = {};
-let lobbyUsers = {};
+let usersInLobby = {};
 
 (async () => {
   const client = await MongoClient.connect(uri, {
@@ -81,9 +81,9 @@ io.on("connection", (socket) => {
   const { displayName, photoURL, uid } = socket.handshake.query;
   socket.join(uid);
 
-  if (!lobbyUsers[uid]) {
-    lobbyUsers = {
-      ...lobbyUsers,
+  if (!usersInLobby[uid]) {
+    usersInLobby = {
+      ...usersInLobby,
       [uid]: { displayName, photoURL },
     };
   }
@@ -97,7 +97,7 @@ io.on("connection", (socket) => {
 
   socket.on(RECEIVE_LOBBY_USERS, () => {
     io.emit(LOBBY_ROOMS, convertedRooms);
-    io.emit(UPDATE_USER, Object.values(lobbyUsers));
+    io.emit(UPDATE_USER, Object.values(usersInLobby));
   });
 
   socket.on(SEND_CHAT, ({ user, chat }) => {
@@ -106,9 +106,9 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     const { uid } = socket.handshake.query;
-    delete lobbyUsers[uid];
+    delete usersInLobby[uid];
 
-    io.emit(UPDATE_USER, Object.values(lobbyUsers));
+    io.emit(UPDATE_USER, Object.values(usersInLobby));
   });
 });
 
@@ -142,6 +142,10 @@ battles.on("connection", (socket) => {
     io.emit(LOBBY_ROOMS, convertedRooms);
   });
 
+  socket.on(SEND_USER, () => {
+    socket.to(roomId).emit(RECEIVE_USER, usersInRoom[roomId]);
+  });
+
   socket.on(DELETE_ROOM, () => {
     socket.to(roomId).emit(RECEIVE_DELETE);
   });
@@ -152,10 +156,6 @@ battles.on("connection", (socket) => {
 
   socket.on(OPPONENT_KEY_RELEASE, (key) => {
     socket.to(roomId).emit(RECEIVE_OPPONENT_KEY_RELEASE, key);
-  });
-
-  socket.on(SEND_USER, () => {
-    socket.to(roomId).emit(RECEIVE_USER, usersInRoom[roomId]);
   });
 
   socket.on(SEND_START, () => {
