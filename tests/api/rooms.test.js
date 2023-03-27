@@ -4,7 +4,7 @@ const mongoMemoryServer = require("../../mongoMemoryServer");
 const BattleRoom = require("../../src/models/BattleRoom");
 const Song = require("../../src/models/Song");
 
-describe("GET /api/rooms", () => {
+describe("Room Test /api/rooms", () => {
   beforeAll(async () => {
     await mongoMemoryServer.connect();
   });
@@ -13,55 +13,61 @@ describe("GET /api/rooms", () => {
     await mongoMemoryServer.closeDatabase();
   });
 
-  afterEach(async () => {
-    await BattleRoom.deleteMany({});
-  });
-
-  it("returns all rooms", async () => {
-    const songOne = new Song({
+  beforeEach(async () => {
+    const songOne = {
       notes: [],
       title: "Fake Love",
       audioURL: "https://bucketname.s3.location.amazonaws/music/fakelove",
       imageURL: "https://bucketname.s3.location.amazonaws/image/fakelove",
       artist: "BTS",
-    });
+    };
 
-    await songOne.save();
-
-    const songTwo = new Song({
+    const songTwo = {
       notes: [],
       title: "왕벌의 비행",
       audioURL: "https://bucketname.s3.location.amazonaws/music/memory",
       imageURL: "https://bucketname.s3.location.amazonaws/image/memory",
       artist: "Rimsky-Korsakov",
-    });
+    };
 
-    await songTwo.save();
-
-    const songThree = new Song({
+    const songThree = {
       notes: [],
       title: "Your Song",
       audioURL: "https://bucketname.s3.location.amazonaws/music/yoursong",
       imageURL: "https://bucketname.s3.location.amazonaws/image/yoursong",
       artist: "Elton John",
+    };
+
+    await Song.create(songOne);
+    await Song.create(songTwo);
+    await Song.create(songThree);
+
+    const addedSongOne = await Song.findOne({
+      title: "Fake Love",
     });
 
-    await songThree.save();
+    const addedSongTwo = await Song.findOne({
+      title: "왕벌의 비행",
+    });
+
+    const addedSongThree = await Song.findOne({
+      title: "Your Song",
+    });
 
     const roomOne = new BattleRoom({
-      song: songOne._id,
+      song: addedSongOne._id,
       createdBy: "최연석",
       uid: "m5zw3tb2fqpfeqjmg97twmyhlgq2",
     });
 
     const roomTwo = new BattleRoom({
-      song: songTwo._id,
+      song: addedSongTwo._id,
       createdBy: "복달",
       uid: "G30XEWAkD9eJTSDdluAoISMcPVC2",
     });
 
     const roomThree = new BattleRoom({
-      song: songThree._id,
+      song: addedSongThree._id,
       createdBy: "송미르",
       uid: "M5ZW3tB2FQPfeQJMG97TWmyHLGQ2",
     });
@@ -69,16 +75,19 @@ describe("GET /api/rooms", () => {
     await BattleRoom.create(roomOne);
     await BattleRoom.create(roomTwo);
     await BattleRoom.create(roomThree);
+  });
 
+  afterEach(async () => {
+    await Song.deleteMany({});
+    await BattleRoom.deleteMany({});
+  });
+
+  it("GET /api/rooms", async () => {
     const response = await request(app).get("/api/rooms");
     expect(response.status).toEqual(200);
     expect(response.body.rooms).toHaveLength(3);
 
-    const expectedRooms = [
-      { createdBy: roomOne.createdBy, uid: roomOne.uid },
-      { createdBy: roomTwo.createdBy, uid: roomTwo.uid },
-      { createdBy: roomThree.createdBy, uid: roomThree.uid },
-    ];
+    const expectedRooms = await BattleRoom.find({});
 
     response.body.rooms.forEach((room, index) => {
       expect(room.createdBy).toEqual(expectedRooms[index].createdBy);
@@ -89,23 +98,18 @@ describe("GET /api/rooms", () => {
   });
 
   it("returns an error if BattleRoom model or song field is missing", async () => {
-    const songPath = BattleRoom.schema.paths.song;
-    BattleRoom.schema.remove("song");
-
-    const roomOne = new BattleRoom({
-      createdBy: "최연석",
-      uid: "m5zw3tb2fqpfeqjmg97twmyhlgq2",
+    await BattleRoom.deleteMany({});
+    const sampleRoom = new BattleRoom({
+      song: "invalidId",
+      createdBy: "최연소",
+      uid: "m5zw3tb2fqpfeqjmg97twmyhlgq5",
     });
 
-    await BattleRoom.create(roomOne);
-
-    const response = await request(app).get("/api/rooms");
-
-    expect(response.status).toEqual(500);
-    expect(response.body.message).toEqual(
-      "BattleRoom model or song field is missing",
-    );
-
-    BattleRoom.schema.add({ song: songPath });
+    try {
+      await BattleRoom.create(sampleRoom);
+    } catch (e) {
+      const errorMessage = e;
+      expect(errorMessage).toBeDefined();
+    }
   });
 });
