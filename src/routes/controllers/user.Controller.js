@@ -87,11 +87,11 @@ exports.localLogin = async (req, res, next) => {
   }
 };
 
-exports.deleteUser = async (req, res, next) => {
+exports.deleteLocalUser = async (req, res, next) => {
   const { email } = req.body;
 
   try {
-    await User.deleteOne({ email });
+    await User.deleteOne({ uid: email });
 
     res.status(204).send({ result: "delete" });
   } catch (err) {

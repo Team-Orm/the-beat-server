@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const mongoServer = new MongoMemoryServer();
 
 async function connect() {
-  await mongoServer.start(); // Add this line to start the server
+  await mongoServer.start();
   const uri = await mongoServer.getUri();
 
   const mongooseOpts = {
