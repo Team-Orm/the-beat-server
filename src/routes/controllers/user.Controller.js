@@ -87,7 +87,7 @@ exports.localLogin = async (req, res, next) => {
   }
 };
 
-exports.deleteUser = async (req, res, next) => {
+exports.deleteLocalUser = async (req, res, next) => {
   const { email } = req.body;
 
   try {

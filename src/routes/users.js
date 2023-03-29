@@ -8,6 +8,6 @@ router.post("/logout", userController.logoutUser);
 router.post("/local/login", userController.localLogin);
 router.post("/local/register", userController.localRegister);
 
-router.delete("/delete", userController.deleteUser);
+router.delete("/delete", userController.deleteLocalUser);
 
 module.exports = router;
