@@ -142,3 +142,15 @@ exports.deleteBattleRoom = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.deleteForTest = async (req, res, next) => {
+  const { email } = req.body;
+
+  try {
+    await BattleRoom.findByIdAndDelete({ uid: email });
+
+    res.status(204).send({ result: "delete" });
+  } catch (err) {
+    next(err);
+  }
+};
