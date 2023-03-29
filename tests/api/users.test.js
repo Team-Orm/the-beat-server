@@ -36,7 +36,7 @@ describe("POST /api/users/login", () => {
       photoURL: "https://www.peanuts.com/sites/default/files/cb-color.jpg",
     };
 
-    const usersBefore = await User.find({});
+    const usersBefore = await User.find();
 
     const response = await request(app)
       .post("/api/users/login")
@@ -53,7 +53,7 @@ describe("POST /api/users/login", () => {
     expect(response.body.users).toBeDefined();
     expect(response.body.token).toBeDefined();
 
-    const usersAfter = await User.find({});
+    const usersAfter = await User.find();
     const addedUser = await User.findOne({
       uid: newMockUser.uid,
     });
@@ -84,22 +84,21 @@ describe("POST /api/users/logout", () => {
   it("logs out the user and returns a 204 response", async () => {
     const response = await request(app).post("/api/users/logout");
 
-    expect(response.status).toBe(204);
+    expect(response.status).toEqual(204);
     expect(response.headers["set-cookie"][0]).toContain("jwt=;");
   });
 });
 
 describe("POST api/users/local/register", () => {
-  let mockUser;
+  const mockUser = {
+    uid: "652df1ac5bfa32a524169098",
+    password: "testpassword",
+    displayName: "Test User",
+    photoURL: "http://example/com/test.jpg",
+  };
 
   beforeAll(async () => {
     await mongoMemoryServer.connect();
-    mockUser = {
-      uid: "652df1ac5bfa32a524169098",
-      password: "testpassword",
-      displayName: "Test User",
-      photoURL: "http://example/com/test.jpg",
-    };
   });
 
   afterAll(async () => {
@@ -115,27 +114,27 @@ describe("POST api/users/local/register", () => {
       photoURL: mockUser.photoURL,
     });
 
-    const userFound = await User.find({ uid: "652df1ac5bfa32a524169098" });
+    const userFound = await User.findOne({ uid: mockUser.uid });
 
     expect(response.status).toEqual(201);
     expect(response.body.result).toEqual("Success");
-    expect(userFound[0]).toBeDefined();
-    expect(userFound[0].uid).toEqual(mockUser.uid);
-    expect(userFound[0].name).toEqual(mockUser.displayName);
-    expect(userFound[0].photoURL).toEqual(mockUser.photoURL);
+    expect(userFound).toBeDefined();
+    expect(userFound.uid).toEqual(mockUser.uid);
+    expect(userFound.name).toEqual(mockUser.displayName);
+    expect(userFound.photoURL).toEqual(mockUser.photoURL);
   });
 });
 
 describe("POST /api/users/local/login", () => {
+  const mockUser = {
+    uid: "652df1ac5bfa32a524169098",
+    password: "testpassword",
+    displayName: "Test User",
+    photoURL: "http://example/com/test.jpg",
+  };
+
   beforeAll(async () => {
     await mongoMemoryServer.connect();
-
-    mockUser = {
-      uid: "652df1ac5bfa32a524169098",
-      password: "testpassword",
-      displayName: "Test User",
-      photoURL: "http://example/com/test.jpg",
-    };
 
     const password = await bcrypt.hash(mockUser.password, 10);
 
@@ -163,7 +162,7 @@ describe("POST /api/users/local/login", () => {
 
     const userFound = await User.find({ uid: mockUser.uid });
 
-    expect(response.status).toBe(201);
+    expect(response.status).toEqual(201);
     expect(response.body.user.uid).toEqual(mockUser.uid);
     expect(response.body.user.name).toEqual(mockUser.displayName);
     expect(userFound).toBeDefined();
@@ -184,7 +183,7 @@ describe("POST /api/users/local/login", () => {
       uid: mockUser.uid,
     });
 
-    expect(response.status).toBe(400);
+    expect(response.status).toEqual(400);
     expect(response.body.message).toEqual(
       "No user with that email or password",
     );
@@ -192,16 +191,15 @@ describe("POST /api/users/local/login", () => {
 });
 
 describe("DELETE /api/users/delete", () => {
-  let mockUser;
+  const mockUser = {
+    uid: "652df1ac5bfa32a524169098",
+    password: "testpassword",
+    name: "Test User",
+    photoURL: "http://example/com/test.jpg",
+  };
+
   beforeAll(async () => {
     await mongoMemoryServer.connect();
-    mockUser = {
-      uid: "652df1ac5bfa32a524169098",
-      password: "testpassword",
-      name: "Test User",
-      photoURL: "http://example/com/test.jpg",
-    };
-
     await User.create(mockUser);
   });
 
@@ -210,16 +208,17 @@ describe("DELETE /api/users/delete", () => {
   });
 
   it("deletes the user and return 204 code", async () => {
-    const userBefore = await User.findOne({ uid: mockUser.uid });
+    const userBefore = await User.find({ uid: mockUser.uid });
 
     const response = await request(app).delete("/api/users/delete").send({
       email: mockUser.uid,
     });
 
-    const userAfter = await User.findOne({ uid: mockUser.uid });
+    const userAfter = await User.find({ uid: mockUser.uid });
 
     expect(response.status).toEqual(204);
     expect(userBefore).toBeDefined();
-    expect(userAfter).toEqual(null);
+    expect(userAfter.length).toEqual(0);
+    expect(userBefore.length).toEqual(userAfter.length + 1);
   });
 });
