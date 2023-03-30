@@ -79,7 +79,7 @@ exports.getSongs = async (req, res, next) => {
 };
 
 exports.makeRoom = async (req, res, next) => {
-  const { song, createdBy, uid } = req.body;
+  const { song, createdBy, uid, mode } = req.body;
 
   if (!song || !createdBy || !uid) {
     return res.status(400).send({ message: "Invalid requested body" });
@@ -90,6 +90,7 @@ exports.makeRoom = async (req, res, next) => {
       song,
       createdBy,
       uid,
+      mode,
     });
 
     res.status(201).send({ room });
