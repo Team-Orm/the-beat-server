@@ -104,6 +104,16 @@ io.on("connection", (socket) => {
     io.emit(BROADCAST_CHAT, user, chat);
   });
 
+  socket.on("reconnect", () => {
+    if (!usersInLobby[uid]) {
+      usersInLobby = {
+        ...usersInLobby,
+        [uid]: { displayName, photoURL },
+      };
+      io.emit(UPDATE_USER, Object.values(usersInLobby));
+    }
+  });
+
   socket.on("disconnect", () => {
     const { uid } = socket.handshake.query;
     delete usersInLobby[uid];
@@ -194,5 +204,7 @@ results.on("connection", (socket) => {
     socket.to(resultId).emit(RECEIVE_RESULTS, comboResults, totalScore, user);
   });
 
-  socket.on("disconnect", () => {});
+  socket.on("disconnect", () => {
+    delete usersInRoom[resultId];
+  });
 });
