@@ -19,6 +19,9 @@ const BattleRoomSchema = new mongoose.Schema({
     trim: true,
     unique: true,
   },
+  mode: {
+    type: String,
+  },
 });
 
 module.exports = mongoose.model("BattleRoom", BattleRoomSchema);
