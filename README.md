@@ -2,13 +2,14 @@
 
 # Introduction
 
-The Beat는 실시간 통신을 이용한 웹브라우저 기반 리듬게임입니다.
+The Beat는 실시간 통신을 이용한 배틀형 리듬게임 웹 어플리케이션입니다.
 
 # 📖 Table of Contents
 
 - [🎶 The beat](#🎶-the-beat)
 - [💪 Motivation](#💪-motivation)
-- [🔥 Challenges](#🔥-challenges)
+- [🎥시연 화면](#🎥-시연-화면)
+- [🔥 Issue Points](#🔥-issue-points)
 
 * [Canvas API를 통해 리듬게임을 어떻게 구현할까?](#1-canvas-api를-통해-리듬게임을-어떻게-구현할까)
   - [1) Canvas API를 선택한 이유](#1-canvas-api를-선택한-이유)
@@ -51,7 +52,11 @@ The Beat는 실시간 통신을 이용한 웹브라우저 기반 리듬게임입
 
 기존에 만들어진 리듬게임을 확인해보며 웹으로 직접 리듬 게임을 직접 구현해보고 실시간으로 통신도 하면 팀원들과 재미있게 만들수 있겠다! 라는 생각으로 The Beat 프로젝트를 시작하게 되었습니다.
 
-# 🔥 Challenges
+# 🎥 시연 화면
+
+Video
+
+# 🔥 Issue Points
 
 3주간의 프로젝트를 진행하며 여러 Challenges가 있었지만 핵심적인 Challenges는 다음과 같은 요소가 있었습니다.
 
@@ -182,7 +187,7 @@ const update = useCallback(
       return render(ctx, note);
     }
   },
-  [canvas?.height, comboResults, render]
+  [canvas?.height, comboResults, render],
 );
 ```
 
@@ -385,7 +390,7 @@ useEffect(() => {
   const deleteBattle = async () => {
     const roomId = resultId;
     const response = await axios.delete(
-      `${process.env.REACT_APP_SERVER_URL}/api/rooms/${roomId}`
+      `${process.env.REACT_APP_SERVER_URL}/api/rooms/${roomId}`,
     );
 
     if (response.status === 204) {
@@ -550,7 +555,7 @@ setInterval(() => {
   const tokensToAdd = delta * tokenBucket.fillRate;
   tokenBucket.tokens = Math.min(
     tokenBucket.capacity,
-    tokenBucket.tokens + tokensToAdd
+    tokenBucket.tokens + tokensToAdd,
   );
   tokenBucket.lastUpdateTime = now;
 }, 1000);
@@ -565,7 +570,7 @@ setInterval(() => {
 
 # 🗓 Schedule
 
-### 프로젝트 기간 : 2023.03.6 ~ 2023.03.29 / 3주
+### 프로젝트 기간 : 2023.03.6 ~ 2023.03.29 / 기획 10일 개발 14일
 
 - 1 주차 : 기획 및 설계
   - 아이디어 수집
