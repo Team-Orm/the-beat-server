@@ -1,4 +1,10 @@
-.DS_Store
 .env
-
 node_modules
+.eslintignore
+
+/coverage
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

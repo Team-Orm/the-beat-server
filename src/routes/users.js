@@ -5,11 +5,9 @@ const userController = require("./controllers/user.Controller");
 router.post("/login", userController.loginUser);
 router.post("/logout", userController.logoutUser);
 
-router.post("/", async (req, res, next) => {
-  try {
-  } catch (err) {
-    next(err);
-  }
-});
+router.post("/local/login", userController.localLogin);
+router.post("/local/register", userController.localRegister);
+
+router.delete("/delete", userController.deleteLocalUser);
 
 module.exports = router;

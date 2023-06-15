@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
 
-const UserSchema = new mongoose.Schema({
+const RecordSchema = new mongoose.Schema({
+  uid: {
+    type: String,
+    required: true,
+    trim: true,
+  },
   name: {
     type: String,
     required: true,
@@ -10,22 +15,15 @@ const UserSchema = new mongoose.Schema({
   },
   photoURL: {
     type: String,
-    required: true,
     trim: true,
   },
-  uid: {
+  title: {
     type: String,
     required: true,
-    trim: true,
   },
-  password: {
-    type: String,
-    trim: true,
-  },
-  token: {
-    type: String,
-    trim: true,
+  totalScore: {
+    type: Number,
+    required: true,
   },
 });
-
-module.exports = mongoose.model("User", UserSchema);
+module.exports = mongoose.model("Record", RecordSchema);

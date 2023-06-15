@@ -1,22 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const roomController = require("./controllers/room.Controller");
+const verifyToken = require("./middlewares/verifyToken");
 
-router.get("/", async (req, res, next) => {
-  try {
-  } catch (err) {
-    next(err);
-  }
-});
+router.get("/", roomController.getRooms);
 
-router.get("/new", roomController.getSongs);
-router.post("/new", roomController.makeRoom);
+router.get("/new", verifyToken, roomController.getSongs);
+router.post("/new", verifyToken, roomController.makeRoom);
 
-router.get("/:roomId", async (req, res, next) => {
-  try {
-  } catch (err) {
-    next(err);
-  }
-});
+router.get("/:roomId", verifyToken, roomController.getBattleData);
+router.delete("/:roomId", verifyToken, roomController.deleteBattleRoom);
 
 module.exports = router;
