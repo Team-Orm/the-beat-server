@@ -28,6 +28,7 @@
     "dev:server": "NODE_ENV=development nodemon ./src/bin/www",
     "dev:socket": "NODE_ENV=development nodemon ./src/utils/socket",
     "lint:fix": "eslint --fix .",
+    "pre-commit": "lint-staged",
     "test": "NODE_ENV=test jest --coverage --watchAll"
   },
   "devDependencies": {
