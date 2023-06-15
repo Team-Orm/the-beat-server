@@ -24,9 +24,6 @@
   },
   "scripts": {
     "start": "node ./src/bin/www",
-    "dev": "npm-run-all --parallel dev:*",
-    "dev:server": "NODE_ENV=development nodemon ./src/bin/www",
-    "dev:socket": "NODE_ENV=development nodemon ./src/utils/socket",
     "lint:fix": "eslint --fix .",
     "pre-commit": "lint-staged",
     "test": "NODE_ENV=test jest --coverage --watchAll"
@@ -40,7 +37,6 @@
     "jest": "^29.5.0",
     "lint-staged": "^13.2.0",
     "nodemon": "^2.0.12",
-    "npm-run-all": "^4.1.5",
     "prettier": "2.8.4",
     "supertest": "^6.3.3"
   },
