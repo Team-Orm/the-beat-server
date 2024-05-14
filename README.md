@@ -7,33 +7,38 @@
 <br>
 <p align="center"><a href="https://www.youtube.com/watch?v=bhVkFiCH_gU">MeetUP 시연영상</a></p>
 
-<br>
+[Deployment🏠](https://thebeat.fun)
+
 <br>
 
 # 📖 Table of Contents
 
-- [🤝 MeetUP](#🤝-meetup)
 - [💪 Motivation](#💪-motivation)
-- [📌 Feature](#📌-feature)
-- [🔥 Challenges](#🔥-challenges)
-  - [각유저의 지역정보가 다르다면 미팅시간은 어떻게 표시 해야할까?](#1-미팅요청-하는-유저와-수락하는-유저의-지역-정보가-다르다면-시간을-어떻게-표시-해야할까)
-    - [어떻게 위치기반의 캘린더를 만들수 있을까?](#1-어떻게-위치기반의-캘린더를-만들수-있을까)
-    - [사용자의 지역에 따른 로컬시간이 다르다면 서로의 시간은 어떻게 표시해야 하지?](#2-사용자의-지역에-따른-로컬시간이-다르다면-서로의-시간은-어떻게-표시해야-하지)
-    - [미팅이 특정 시간만큼 지나야지만 미팅완료를 할 수 있게 하고싶은데 어떻게 해야하지?](#3-미팅이-특정-시간만큼-지나야지만-미팅완료를-할-수-있게-하고싶은데-어떻게-해야하지)
-  - [미팅 이벤트가 발생시 해당유저에게 발생한 이벤트를 어떻게 알려줄 수 있을까?](#2-미팅-이벤트가-발생시-해당유저에게-발생한-이벤트를-어떻게-알려줄-수-있을까)
-    - [어떤 Push 알림 서비스 선택 해야할까?](#1-어떤-push-알림-서비스-선택-해야할까)
-    - [Push 알림 토큰 관리는 어떻게 해주는 것이 좋을까?](#2-push-알림-토큰-관리는-어떻게-해주는-것이-좋을까)
-    - [Push 알림 토큰으로 알림 생성 및 전송은 어떻게 할 수 있을까?](#3-push-알림-토큰으로-알림-생성-및-전송은-어떻게-할-수-있을까)
-  - [React Native로 프로젝트를 진행하면서 마주친 Challenges!](#3-react-native로-프로젝트를-진행하면서-마주친-challenges)
-    - [React와 다른 React Native UI 구성 요소](#1-react와-다른-react-native-ui-구성-요소)
-    - [React와 다른 React Native 레이아웃의 차이](#2-react와-다른-react-native-레이아웃의-차이)
-    - [애니메이션을 실행하면서 어떻게 상태를 업데이트 해야할까?](#3-애니메이션을-실행하면서-어떻게-상태를-업데이트-해야할까)
-    - [React Native에서의 플랫폼 간의 차이](#4-react-native에서의-플랫폼-간의-차이)
-    - [React Native에서는 페이지의 주소가 없는데 어떻게 페이지 이동을 해야하지?](#5-react-native에서는-페이지의-주소가-없는데-어떻게-페이지-이동을-해야하지)
-- [🗓 Schedule](#🗓-schedule)
-- [🔗 Repository Link](#🔗-repository-link)
-- [🛠 Tech Stacks](#🛠-tech-stacks)
-- [🏠 Members](#🏠-members)
+- [🎥서비스 화면](#🎥-서비스-화면)
+- [기능 및 작업 기여도](#기능-및-작업-기여도)
+- [🔥 Issue Points](#🔥-issue-points)
+  - [Canvas API를 통해 어떻게 리듬게임을 구현할 수 있을까?](#canvas-api를-통해-어떻게-리듬게임을-구현할-수-있을까)
+    - [Canvas API를 선택한 이유](#canvas-api를-선택한-이유)
+    - [델타 타임의 적용](#델타-타임의-적용)
+    - [다음 프레임 호출은 setTimeout과 requestAnimationFrame중 무엇을 써야 할 까?](#다음-프레임-호출은-settimeout과-requestanimationframe중-무엇을-써야-할-까)
+    - [Miss처리](#miss-처리)
+  - [Web Audio API와 Canvas API의 싱크를 어떻게 맞출 수 있을까?](#web-audio-api와-canvas-api의-싱크를-어떻게-맞출-수-있을까)
+    - [Web Audio API를 선택한 이유](#web-audio-api를-선택한-이유)
+    - [Web Audio API 기본 원리](#web-audio-api-기본-원리)
+    - [Web Audio API와 Canvas API 연결하기](#web-audio-api와-canvas-api-연결하기)
+  - [실시간 콤보, 이펙트, 결과창의 구현](#실시간-콤보-이펙트-결과창의-구현)
+    - [실시간으로 어떻게 표시해줄 수 있을까?](#실시간으로-어떻게-표시해줄-수-있을까)
+    - [useLayoutEffect의 적용](#uselayouteffect의-적용)
+  - [Socket.IO를 더 효율적으로 사용해보기](#socketio를-더-효율적으로-사용해보기)
+    - [Socket.IO 프레임워크를 사용한 이유](#socketio-프레임워크를-사용한-이유)
+    - [Socket.IO 최적화의 중요성](#socketio-최적화의-중요성)
+    - [우리 프로젝트에서 Socket.IO를 어떻게 최적화 할 수 있을까?](#우리-프로젝트에서-socketio를-어떻게-최적화-할-수-있을까)
+- [🗓 Schedule](#-schedule)
+- [🔗 Repository Link](#-repository-link)
+- [🛠 Tech Stacks](#-tech-stacks)
+- [✅ Test](#✅-test)
+- [🚀 Deployment](#🚀-deployment)
+- [🏠 Members](#-members)
 
   <br>
 
@@ -135,7 +140,50 @@ Google Calendar API는 다양한 기능을 제공하며, 이를 통해 캘린더
 
 <br>
 
+<<<<<<< HEAD
+
 ### 2-1) 사용자의 지역에 따른 로컬시간이 다른경우 어떻게 시간을 통일화 해서 DB에 저장해야 할까?
+
+=======
+
+### `Web Audio API` 기본 원리
+
+<hr>
+
+`Web Audio API`를 통해 오디오를 다루는 원리는 다음과 같습니다.
+
+1. 먼저 Audio Input을 입력받습니다.
+2. `AudioContext` 인터페이스를 통해 오디오 관련 작업을 진행합니다.
+3. Destination으로 출력합니다.
+
+<img width="350" alt="image" src="https://github.com/Team-Orm/the-beat-client/assets/113571767/c2cfa1fd-27a5-4fc7-a0ba-1cf432fe014e">
+
+우선 S3에서 받은 오디오 데이터를 Buffer 데이터로 변환 시키는 것부터 해주어야 했습니다.
+
+<img width="596" alt="image" src="https://github.com/Team-Orm/the-beat-client/assets/113571767/021c3f59-a773-4b92-93c7-cee4b260ce11">
+
+여기서 Buffer가 무엇인지 알 필요가 있습니다.
+
+`Buffer`란? RAM에 작은 영역인 `Buffer`란 이름의 버스 정류장을 만들어 일련의 데이터 스트림이 모이면 (출발 시간이 되면) 처리되기 위해 내보내어 집니다.
+
+이 `Buffer`에 Audio Data를 **8비트의 정수 배열로 변환 시켜 담아** 이걸 `AudioContext`의 시작 지점인 `SoucrNode`와 연결 시킵니다.
+
+다음은 `AudioBuffer` 예시입니다.
+
+<p>
+  <img width="750" alt="image" src="https://user-images.githubusercontent.com/115068443/228592960-d7eba3c8-d267-4e9a-9a5c-f57c5f71c5ed.png">
+</p>
+
+<img width="350" alt="image" src="https://github.com/Team-Orm/the-beat-client/assets/113571767/1c2254de-72f5-4e88-bfc8-ccfda806d192">
+
+<br>
+
+이렇게 연결된 `SourceNode`와 일련의 작업 노드들의 가공을 통해 `Destination`(output)으로 출력이 됩니다.
+
+<br>
+
+<img width="200" alt="image" src="https://github.com/Team-Orm/the-beat-client/assets/113571767/45ac2cf1-7a88-4d7f-94c6-e9ad197ffd71">
+>>>>>>> 7ed2c43c6cb5b3255d4c2cf37a0f7bc89e3fa9d1
 
 <br>
 
@@ -159,65 +207,138 @@ const convertToUTCDate = (localDate, hour) => {
 
 위의 함수를 사용하여, 주어진 로컬 날짜와 시간을 UTC 형태의 시간으로 변환하는 함수를 만들어 주었습니다.
 
-<br>
-이 함수는 주어진 로컬 날짜`localDate`와 시간`hour`을 기반으로 해당 시간의 UTC 날짜 문자열을 반환합니다.
-<br>
+그 다음 Task는 나 자신의 점수와 스코어, 콤보를 관리하고 실시간으로 상대방에게 넘겨주는 것을 해결해야 했습니다.
 
-1. `localDate` 인자를 기반으로 새로운 `Date` 객체를 생성합니다. 이 객체는 로컬 시간대의 날짜 및 시간 정보를 가지고 있습니다.
-   <br>
+나 자신의 정보를 관리하기 위해서는 하나의 Resource에서 전부 관리해주는 것이 옳다고 판단하였고, 전역 상태 관리 툴인 `Redux`를 선택하게 되었습니다.
 
 2. `date` 객체의 시간을 주어진 `hour`로 설정하고, 분, 초, 밀리초를 0으로 초기화합니다. 이렇게 하면, 원하는 시간을 가진 새로운 날짜 및 시간 객체가 생성됩니다.
    <br>
 
-3. `date` 객체의 UTC 날짜 및 시간을 ISO 8601 형식의 문자열로 변환하여 반환합니다. 이 문자열은 "YYYY-MM-DDTHH:mm:ss.sssZ" 형식을 따르며, "Z"는 UTC 시간대를 나타냅니다.
+<p>
+  <img width="250" alt="image" src="https://github.com/Team-Orm/the-beat-client/assets/113571767/dffd50de-0da9-495a-9a66-e329e4599446">
+</p>
+
+2. 상대방한테 내 정보를 표시하는 것은 `Redux`를 통해 관리한 내 정보를 `Socket`을 통해 전송하면 `Socket`에서는 `BattleUser`의 정보로 전달 받음.
+
+<p>
+  <img width="400" alt="image" src="https://github.com/Team-Orm/the-beat-client/assets/113571767/b8da00b0-e326-4606-b59b-30c0173a36ad">
+</p>
+<p>
+  <img width="600" alt="image" src="https://github.com/Team-Orm/the-beat-client/assets/113571767/198354eb-9b35-45a3-9f0b-438fb7e48c45">
+</p>
+
+3. `GameController`에서는 `BattleUser`의 정보가 `props`로 있을 경우 `BattleUser`의 정보를 표시, **아닐 경우 현재 `currentCombo`를** 표시!
+
+<p>
+  <img width="450" alt="image" src="https://github.com/Team-Orm/the-beat-client/assets/113571767/8e347417-82f1-4900-9550-68dd7ed6b1b0">
+</p>
+<p>
+  <img width="300" alt="image" src="https://github.com/Team-Orm/the-beat-client/assets/113571767/fd303846-c5db-442c-98e4-504b44cc594d">
+</p>
+<p>
+  <img width="500" alt="image" src="https://github.com/Team-Orm/the-beat-client/assets/113571767/a541ed42-1667-4140-8e23-192eab1b5aff">
+</p>
+
+### **useLayoutEffect의 적용**
+
+<hr>
+
+이제는 노래가 끝날 때 결과창을 표시해주면 됐습니다. 그러나 **결과 값이 원하는 대로 표시되지 않는 이슈**가 있었습니다.
+
+처음 해결 방법은 입력된 정보들을 결과창으로 그대로 보내주면 되지 않을까? 라고 단순히 생각하여,
+
+**단순히 노래의 길이와 현재 시작한 시간이 같아질 때** 저장한 정보를 `dispatch`하면 되겠다 라는 생각을 했으나,
+
+1. `console.log(콤보)`를 확인해 보니 두번 렌더링이 되며 값이 제대로 들어오지 않는 것을 알 수 있었습니다.
+
+<p>
+  <img width="435" alt="image" src="https://github.com/Team-Orm/the-beat-client/assets/113571767/334bab14-0c08-467a-8aaf-e45f5e9bdbf1">
+</p>
+
+그 이유에 대해 조사를 해보며 이유를 알 수 있었습니다.
+
+1. `useEffect`와 `requestAnimationFrame`을 같이 이용.
+2. `requestAnimationFrame`은 `Repaint` 이전 주어진 콜백을 실행한 후 `Layout`과 `Paint`를 진행 합니다.
+3. `useEffect`의 `cleanup`이 브라우저의 `Paint` 이후에 실행되며 requestAnimationFrame을 한 번 더 호출해 값이 초기화되는 것이었습니다.
+
+<p>
+  <img width="300" alt="image" src="https://github.com/Team-Orm/the-beat-client/assets/113571767/4117410a-239c-410c-82e6-3ff66efaa262">
+</p>
+
+위 이미지처럼 한 프레임 안에서 콜백을 먼저 호출한 뒤 `Painting`을 진행합니다.
+
+반면, `useEffect`는 실제로 `DOM`이 업데이트된 후 동기적으로 실행되는 것이 아니라, **나중에 실행**된다는 것이 문제였습니다.
 
 <br>
 
 ### 2-2) UTC(협정 세계시)로 저장되어 있는 데이터를 로컬시간으로 변환
 
-UTC(협정 세계시)로 저장되어 있는 데이터를 바로 표시하면 유저가 시간을 파악하기 힘드므로 위저의 경험을 위해 자신의 지역 TimeZone으로 다시 로컬시간으로 변환하는 과정이 필요했습니다.
+<br>
+
+그래서 `useEffect`가 실행되기 전에, `requestAnimationFrame`이 스케쥴을 선점해 `Repaint` 할 수 있다는 것이 문제였습니다.
+
+<p>
+  <img width="400" alt="image" src="https://github.com/Team-Orm/the-beat-client/assets/113571767/0dc3b5fd-63a1-4f3d-8218-ba7201cf3d36">
+</p>
+
+- 이 말은 `useEffect`의 `cleanup`이 나중에 실행되기 때문에, `rAF`가 한번 더 호출되고 `cleanup`이 실행되어 값이 원하는 값으로 들어오지 않았습니다.
+- 이를 해결하기 위해 `useEffect` 외에도 `DOM`이 업데이트 된 후 동기적으로 실행된다는 점을 제외하면 동일한 방식인 `useLayoutEffect`를 도입해 해결해보고자 하였습니다.
+
+<p>
+  <img width="400" alt="image" src="https://github.com/Team-Orm/the-beat-client/assets/113571767/368363d5-6aaf-4425-af29-8846f4a4d323">
+</p>
+
+두 `Hook` 다 `React`가 `DOM`과 `Refs`를 최신화 시킨 뒤 실행이 되지만 차이가 있었습니다.
+
+- `useLayoutEffect`는 `React`가 `DOM`을 최신화 시킨 뒤 곧 바로 `Paint` 이전에 실행하고 정리합니다.
+- `useEffect`는 `React`가 `Paint`를 한 직 후 `Effect`를 실행하고 정리합니다.
+
+이를 적용해 `requestAnimationFrame`의 호출이 이루어지기 전에 `dispatch`를 통해 값을 받음으로써 원하는 결과값을 얻어 이슈를 해결하였습니다.
+
+<br>
+<br>
+
+## **Socket.IO를 더 효율적으로 사용해보기**
+
+노트에 대한 많은 정보가 전달될 때 상대의 키값 또한 전달되므로 순간적으로 Latency의 증가가 발견되어 Socket.IO를 통한 실시간 배틀에서의 최적화를 고민하게 되었습니다.
+
+The Beat 리듬게임 프로젝트에서는 Socket.IO을 사용하여 서버와 여러 클라이언트 간의 실시간 통신을 합니다. 따라서 저희는 Socket.IO 통신의 효율성과 성능이 중요하다고 판단했습니다.
+그리고 다음과 같은 다양한 방안을 고안하여 Socket.IO 최적화를 하고자 노력하였습니다.
 
 <br>
 
-**대안: 시간 정보의 표준화**
+### Socket.IO 프레임워크를 사용한 이유
+
+<hr>
 
 저장된 UTC 시간 정보를 사용자의 로컬 시간대로 변환하여 보여주는 방법을 고려했습니다. UTC 시간 정보를 로컬시간으로 변환해주는 방법은 간단하게 해결되었습니다.
 
-```javascript
-const LocalDate = new Date(UTCDate);
-```
+저희는 WebSocket을 단독으로 사용할지 아니면 Socket.IO 프레임워크를 사용할지 고민해봤습니다.
 
-`new Date()`에 UTC시간을 넣어주면 UTC시간을 자신의 TimeZone의 로컬시간값을 얻어낼 수 있었습니다.
+**Socket.IO를 선택한 이유**
+<br>
+Socket.IO는 양방향 통신을 하기위해 WebSocket 기술을 활용하는 라이브러리입니다.
+<br>
+WebSocket만 사용해도 실시간 양방향 통신을 제공하지만, 아래와 같은 Socket.IO가 제공하는 몇몇 기능들은 기본적으로 제공하지 않습니다.
+
+- **실시간 이벤트 기반 통신**: 음악 게임에서는 사용자의 입력에 따라 실시간으로 게임이 반응해야 합니다. Socket.IO는 이벤트 기반의 통신을 지원하므로, 사용자의 각각의 액션을 이벤트로 취급하고 서버에 실시간으로 전달하는 것이 가능합니다.
+
+- **자동 재연결 지원**: 게임 중 네트워크 상태가 불안정할 경우, 플레이어의 경험을 저해할 수 있습니다. Socket.IO는 연결이 끊어졌을 때 자동으로 재연결을 시도하므로, 사용자의 게임 경험이 중단되는 것을 최소화할 수 있습니다.
+
+- **네임스페이스와 룸 기능**: Socket.IO는 네임스페이스와 룸을 지원하여 다수의 사용자가 동시에 게임을 즐길 수 있도록 만듭니다. 또한, 룸을 사용하면 여러 플레이어가 동일한 게임 세션에 참여할 수 있으며, 서버는 특정 룸의 모든 클라이언트에게 쉽게 메시지를 전송할 수 있습니다
+
+- **환경 호환성 보장**: 모든 웹 브라우저나 네트워크 환경이 WebSocket을 지원하지 않는 경우, Socket.IO의 HTTP Long-Polling fallback기능은 어떠한 환경에서도 실시간 통신을 가능하게 합니다. 따라서, 저희 프로젝트는 어떠한 웹 브라우저에서도 실시간 통신이 가능합니다.
+
+<br>
+위와 같은 특징이 저희 프로젝트에 필요하여 Socket.IO를 선택하였습니다.
 
 <br>
 
 **시도: 로컬 시간 변환 함수의 구현**
 
-```javascript
-const getMeetingsByDate = (meetingList, month, year) => {
-  const meetingsByDate = {};
+<hr>
 
-  meetingList.forEach((meeting) => {
-    const meetingDate = new Date(meeting.startTime);
-    if (
-      meetingDate.getMonth() === month &&
-      meetingDate.getFullYear() === year
-    ) {
-      const dateKey = meetingDate.getDate();
-      if (!meetingsByDate[dateKey]) {
-        meetingsByDate[dateKey] = [];
-      }
-      meetingsByDate[dateKey].push(meeting);
-    }
-  });
-
-  return meetingsByDate;
-};
-```
-
-위의 함수를 사용하여, DB에서 가져온 UTC 형태로 저장된 미팅의 시작 시간을 사용자의 로컬 시간으로 변환하는 시도를 하였습니다.
-<br>
-함수에 대한 자세한 설명은 다음과 같습니다.
+소켓 최적화는 컴퓨터 네트워크에서 소켓 통신의 성능과 효율성을 향상시키는 프로세스를 말하며, 소켓 최적화는 응용 프로그램과 장치 간의 데이터 전송 속도와 안정성을 크게 향상시킬 수 있기 때문에 중요합니다.
 <br>
 
 1. 빈 객체 `meetingsByDate`를 생성합니다. 이 객체는 각 날짜별로 미팅 목록을 저장하기 위한 목적으로 사용됩니다.
@@ -239,7 +360,14 @@ const getMeetingsByDate = (meetingList, month, year) => {
 
 <br>
 
+<<<<<<< HEAD
 **결과: 시간대를 고려한 일정 시간 표시의 성공**
+=======
+
+### 우리 프로젝트에서 Socket.IO를 어떻게 최적화 할 수 있을까?
+
+<hr>
+>>>>>>> 7ed2c43c6cb5b3255d4c2cf37a0f7bc89e3fa9d1
 
 이 방법을 통해, 사용자의 지역정보에 따른 시간대가 달라도 로컬 시간에 맞게 일정 시간을 표시할 수 있었습니다. 모든 날짜를 UTC 형태로 저장하고 사용자의 로컬 시간에 맞도록 변환하여, 각 사용자에게 맞는 시간대로 일정을 표시할 수 있었습니다. 이를 통해 서로 다른 지역의 사용자 간에 시간 표시의 혼동을 최소화하고, 사용자에게 정확한 일정 정보를 제공할 수 있었습니다.
 
@@ -256,10 +384,7 @@ const getMeetingsByDate = (meetingList, month, year) => {
 
 <br>
 
-**문제: 미팅 완료 버튼의 실시간 제어**
-
-현재 프로젝트에서 유저가 미팅이 아직 완료되지 않았음에도 불구하고 실수로 미팅 완료 버튼을 눌러서 불필요하게 미팅을 재신청하는 경우가 발생할 수 있다는 부분을 인지하였습니다. 이러한 문제를 방지하려면, 미팅 시작 시간으로부터 특정 시간이 지난 후에만 미팅 완료 버튼이 활성화되도록 하는 제어가 필요하였습니다.
-
+**Socket.IO 최적화 적용**
 <br>
 
 **대안: 미팅 시작 시간 기준 특정 시간 경과 후에 미팅 완료 버튼 활성화**
@@ -270,354 +395,17 @@ const getMeetingsByDate = (meetingList, month, year) => {
 
 **시도: getTimezoneOffset()을 이용한 시간 차이 계산**
 
-이 문제를 해결하기 위해 JavaScript의 getTimezoneOffset() 메소드를 사용하여 각 사용자의 시간대에 따른 시간 차이를 계산하였습니다. 이 메소드는 현재 시간과 UTC 시간 사이의 차이를 분 단위로 반환합니다. 따라서 이를 이용해 각 사용자의 시간대에 따른 차이를 계산하고, 그 결과를 밀리초 단위로 변환하여 사용하였습니다.
-<br>
-
-`getTimezoneOffset()`메서드는 현재 시간과 UTC 시간(국제 표준시) 사이의 차이를 분 단위로 반환합니다. 이 값은 내가위치해 있는 지역의 시간대와 UTC 시간 간의 차이를 의미합니다.<br>
-즉 UTC+9(한국 시간)에 있을 경우 getTimezoneOffset() 메서드는 -540을 반환합니다. 이 값은 한국 시간이 UTC보다 9시간 빠르다는 것을 의미합니다.
+- **효율적인 메시지 전송**: 최적화된 소켓 구조를 사용하면, 필요한 클라이언트에게만 메시지를 전송할 수 있어 트래픽이 줄어들고 통신이 효율적으로 이루어집니다.
+- **성능 향상**: 불필요한 메시지 전송이 줄어들어 클라이언트의 메시지 처리 부하가 감소하고, 전체적인 성능이 향상됩니다.
+- **유지 보수성**: 소켓 구조를 최적화하면 아래의 프로젝트에 사용한 코드처럼 구조가 명확해져서 유지 보수와 확장이 쉬워집니다.
 
 <br>
-
-**결과: 실시간으로 미팅 완료 버튼을 제어**
-
-위의 방법을 통해, 미팅 시작 시간으로부터 특정 시간이 경과한 후에만 미팅 완료 버튼이 활성화되도록 할 수 있었습니다. 이 결과, 사용자는 미팅이 실제로 완료된 후에만 미팅 완료 버튼을 누를 수 있게 되어, 불필요한 미팅 재신청을 방지할 수 있게 되었습니다. 또한, 이 기능은 사용자의 현재 시간대를 고려하여 동작하므로, 서로 다른 시간대에서 활동하는 사용자들에게도 동일하게 적용됩니다. 이렇게 해서, 이 문제를 해결하였습니다.
-<br>
-아래의 함수는 현재의 프로젝트에서 이문제를 해결하기위해 사용한 함수 입니다.
-
-```javascript
-const isMinutesPast = (meetingStartTime, minutes) => {
-  const now = new Date();
-  const meetingTime = new Date(meetingStartTime);
-  const nowLocal = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
-  const meetingTimeLocal = new Date(
-    meetingTime.getTime() - meetingTime.getTimezoneOffset() * 60000,
-  );
-  const minuteDifference = (nowLocal - meetingTimeLocal) / 60000;
-  return minuteDifference >= minutes;
-};
-```
-
-위 함수의 역할은 다음과 같습니다.
-<br>
-
-1. `meetingTime` 변수를 선언하여 미팅 시작 시간을 저장합니다. 이는 `new Date(meetingStartTime)`를 사용하여 `meetingStartTime` 문자열을 날짜로 변환합니다.
-   <br>
-
-2. `nowLocal` 변수를 선언하여 현재 시간을 UTC에서 로컬 시간으로 변환합니다. <br>이는 `now.getTime() - now.getTimezoneOffset() * 60000`를 사용하여 현재 시간에서 시간대 분 단위를 빼주었습니다.
-   <br>
-
-3. `meetingTimeLocal` 변수를 선언하여 미팅 시작 시간을 UTC에서 로컬 시간으로 변환합니다. <br>이는 `meetingTime.getTime() - meetingTime.getTimezoneOffset() \* 60000`를 사용하여 미팅 시작 시간에서 시간대 분 단위를 빼주었습니다.
-   <br>
-
-4. `minuteDifference` 변수를 선언하여 현재 시간과 미팅 시작 시간 사이의 차이를 분 단위로 계산합니다. <br>이는 `(nowLocal - meetingTimeLocal) / 60000`를 사용하여 현재 로컬 시간에서 미팅 시작 로컬 시간을 뺀 후, 그 결과를 60000(1분을 밀리초로 변환한 값) 해주었습니다.
-   <br>
-
-5. 마지막으로, `minuteDifference`가 `minutes`보다 크거나 같은지 확인합니다. 만약 그렇다면, 함수는 `true`를 반환하고, 그렇지 않다면 `false`를 반환합니다. 이는 `return minuteDifference >= minutes` 문으로 판단됩니다.
-   <br>
-
-이러한 방법으로 true 경우 완료버튼을 나타나게 해주고 false라면 완료버튼이 보이지 않도록 해주었습니다.
-<br>
-
-<img width="400" alt="스크린샷 2023-06-12 오전 2 05 19" src="https://github.com/MeetUp1/Meet_UP-client/assets/107290583/d3da3ab8-9358-4c64-8380-13f46d1bf9f3">
-
-위 이미지 처럼 현재 시간보다 미팅시작 시간이 특정시간 만큼 지났으면 완료버튼이 나오도록 해주었습니다.
+  <img width="400" src="https://github.com/Team-Orm/the-beat-client/assets/107290583/059fc0fe-1eec-446f-b1f6-74a867161784">
 
 <br>
-
-## 2. 미팅 이벤트가 발생시 해당유저에게 발생한 이벤트를 어떻게 알려줄 수 있을까?
-
-미팅 이벤트가 발생했을 때 해당 사용자에게 알림을 전달하려면 Push 알림, 이메일 알림, SMS 알림 등의 방법이 있었지만 react native로 Mobile application을 만드는 만큼 MeetUp application 에서 사용자의 기기에 Push 알림을 보내는 방법을 가장 적합하다고 판단했습니다. Push 알림은 사용자의 스마트폰에 직접 알림을 보내므로, 사용자가 애플리케이션을 실행하지 않아도 알림을 확인할 수 있습니다. 이러한 이유로, MeetUp 애플리케이션에서는 다음과 같은 과정을 통해 Push 알림 시스템을 구축했습니다.
+<img width="650" src="https://github.com/Team-Orm/the-beat-client/assets/107290583/88d75dce-87f2-4786-a8cc-2446dc3cea76">
 
 <br>
-
-### 1) 어떤 Push 알림 서비스 선택 해야할까?
-
-이번 프로젝트에서 Push 알림 서비스를 구현 하기 위해서는 Expo Push Notification과 Firebase Cloud Messaging (FCM) 두가지의 선택지가 있었습니다 두개의 서비스 모두 안드로이드, iOS 지원하지만 현재 expo로 프로젝트를 진행하고 있으므로 expo에 특화된 Expo Push Notification을 사용하기로 하였습니다.
-
-하지만 Expo Push Notification은 Expo 서버를 거쳐 알림을 보내야 하기 때문에, Expo 서버의 성능과 가용성에 영향을 받을 수 있다는 단점이 존재합니다. 하지만 현재 [expo 서버](https://status.expo.dev/)에서 확인해 보면 서버가 안정적으로 운영이 되고 있다는 것을 확인할 수 있습니다.
-
-<br>
-
-### 2) Push 알림 토큰 관리는 어떻게 해주는 것이 좋을까?
-
-사용자의 기기에 알림을 보내려면 기기 토큰을 얻어야 합니다. 애플리케이션에서 사용자가 로그인할 때 기기 토큰을 생성하고, 서버에 전송하여 저장합니다.
-
-```javascript
-export async function registerForPushNotificationsAsync() {
-  let token;
-  if (Device.isDevice) {
-    const { status: existingStatus } =
-      await Notifications.getPermissionsAsync();
-    let finalStatus = existingStatus;
-    if (existingStatus !== "granted") {
-      const { status } = await Notifications.requestPermissionsAsync();
-      finalStatus = status;
-    }
-    if (finalStatus !== "granted") {
-      alert("Failed to get push token for push notification!");
-      return;
-    }
-    token = (await Notifications.getExpoPushTokenAsync()).data;
-  } else {
-    alert("Must use physical device for Push Notifications");
-  }
-
-  if (Platform.OS === "android") {
-    Notifications.setNotificationChannelAsync("default", {
-      name: "default",
-      importance: Notifications.AndroidImportance.MAX,
-      vibrationPattern: [0, 250, 250, 250],
-      lightColor: "#FF231F7C",
-    });
-  }
-
-  return token;
-}
-```
-
-이함수는 현재 프로젝트에서 expo push 알림 토큰을 얻기위해 사용된 함수 입니다. 함수는 설명은 다음과 같습니다.
-<br>
-
-1. `Device.isDevice`를 사용하여 현재 기기가 실제 기기인지 확인합니다. 시뮬레이터에서는 푸시 알림을 사용할 수 없습니다.
-   <br>
-
-2. `Notifications.getPermissionsAsync()`를 사용하여 앱에 이미 푸시 알림 권한이 부여되어 있는지 확인합니다.
-   <br>
-
-3. 권한이 없다면, `Notifications.requestPermissionsAsync()`를 사용하여 사용자에게 푸시 알림 권한을 요청합니다.
-   <br>
-
-4. 사용자가 권한을 허용하면, `Notifications.getExpoPushTokenAsync()`를 사용하여 Expo 푸시 토큰을 가져옵니다.
-   <br>
-
-5. 안드로이드 플랫폼의 경우, `Notifications.setNotificationChannelAsync()`를 사용하여 푸시 알림 채널을 설정합니다. 이 설정은 중요도, 진동 패턴 및 알림 LED 색상을 포함합니다.
-   <br>
-
-6. 마지막으로, 생성된 토큰을 반환합니다. 이렇게 반환된 토큰을 서버에 저장해 주었습니다.
-
-<br>
-
-### 3) Push 알림 토큰으로 알림 생성 및 전송은 어떻게 할 수 있을까?
-
-미팅 이벤트 발생 시 알림을 생성하고 전송하기 위해 expo서버를 사용하였습니다. 알림을 생성할 때 미팅에 참가하는 사용자들의 기기 토큰을 서버에서 가져와 알림을 전송합니다.
-
-```javascript
-async function sendNotification(expoPushToken, title, message) {
-  const data = {
-    to: expoPushToken,
-    sound: "default",
-    title,
-    body: message,
-    data: { someData: "goes here" },
-  };
-
-  try {
-    await axios.post("https://exp.host/--/api/v2/push/send", data);
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-export default sendNotification;
-```
-
-입력으로 받은 `expoPushToken`, `title`, `message`를 사용하여 알림 데이터 객체를 생성합니다. 여기에는 받는 기기의 Expo 푸시 토큰, 알림의 제목, 알림의 본문, 사운드 및 추가 데이터가 포함됩니다.
-<br>
-`axios.post()`를 사용하여 Expo 푸시 알림 서비스에 POST 요청을 보냅니다. 이를 통해 Expo 푸시 알림 서비스가 해당 기기에 알림을 전송합니다.
-<br>
-요청이 성공하면 알림이 보내지고, 실패한 경우 오류를 콘솔에 출력합니다.
-
-![화면_기록_2023-05-07_오후_12_36_22_AdobeExpress](https://user-images.githubusercontent.com/107290583/236910674-63982618-7d96-473f-be00-d86d50f77bdc.gif)
-
-<br>
-
-<img width="700" src="https://user-images.githubusercontent.com/107290583/236910526-720bd8f0-5e30-48aa-bb72-5e3dc0b035ad.png">
-
-<br>
-
-## 3. React Native로 프로젝트를 진행하면서 마주친 Challenges!
-
-지금까지 React를 사용하여 웹을 개발을 진행해보다가 이번 프로젝트를 기회로 React Native로 Mobile application을 만드는 프로젝트를 진행을 해보았는데 이번 프로젝트에서 React Native로 디테일적인 부분을 생각하며 프로젝트를 진행을 하다보니 React Native에서의 여러 Challenges요소들이 있었습니다.
-
-<br>
-
-### 1) React와 다른 React Native UI 구성 요소
-
-React Native는 React와 다른 UI 구성 요소 집합을 사용합니다. 예를 들어 `<div>` 대신 `<View>`를 사용하고 `<p>` 대신 `<Text>`를 사용합니다.
-<br>
-아래의 코드는 현재 프로젝트에서 사용한 미팅카드 UI 구성 하는 코드입니다.
-
-```javascript
-return (
-  <TouchableOpacity onPress={toggleExpanded} style={styles.card}>
-    <View style={styles.scheduleCardRow}>
-      <View style={styles.profileImgContainer}>
-        <Image source={{ uri: picture }} style={styles.profileImg} />
-      </View>
-      <Text style={styles.cardTitle}>{name}</Text>
-      <Text style={styles.cardTime}>{time}</Text>
-    </View>
-    {expanded && (
-      <View style={styles.cardDetails}>
-        <View style={styles.subtitleContainer}>
-          <Text style={styles.subtitleTitle}>미팅안건</Text>
-          <Text style={styles.subtitleContent}>{agenda}</Text>
-        </View>
-        <View style={styles.subtitleContainer}>
-          <Text style={styles.subtitleTitle}>미팅주소</Text>
-          <TouchableOpacity
-            onLongPress={copyToClipboard}
-            delayLongPress={1000}
-            style={styles.subtitleContentTouchable}
-          >
-            <Text style={styles.subtitleContent}>{address}</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    )}
-  </TouchableOpacity>
-);
-```
-
-<br>
-
-### 2) React와 다른 React Native 레이아웃의 차이
-
-리액트 웹 애플리케이션에서는 CSS 플렉스 박스, 그리드 또는 다른 레이아웃 시스템을 사용하여 레이아웃을 사용하여 구성하였지만. 리액트 네이티브에서는 기본적으로 플렉스 박스 레이아웃을 사용하여 요소를 정렬하고 크기를 조절한다는 차이점이 있었습니다.
-
-<br>
-
-### 3) 애니메이션을 실행하면서 어떻게 상태를 업데이트 해야할까?
-
-이번 프로젝트를 진행하면서 모바일 앱이라는 특성으로 캘린더를 슬라이드 하면 이전달 다음달로 넘어가는 애니메이션을 구현중에 문제가 발생했습니다. 슬라이드 했을때 부자연 스럽게 다음달 혹은 이전달로 넘어가거나 오류가 발생하는 부분이였습니다. 이문제를 해결하기 위해서 React Native의 애니메이션 상태를 확인해 보았습니다.
-
-React Native의 애니메이션 상태를 알아보기 위해서는 React Native의 UI 스레드와 JS 스레드 알고 넘어가야 합니다.
-애플리케이션이 시작되면 시스템은 메인 스레드라고 하는 애플리케이션 실행 스레드를 생성합니다. 이 스레드는 그리기 이벤트를 포함하여 적절한 사용자 인터페이스 위젯에 이벤트를 디스패치하는 역할을 담당합니다.
-
-React-Native 앱이 부팅될 때마다 자바스크립트 코드를 처리하기 위한 스레드가 생성됩니다. 이 스레드에는 자바스크립트 코드를 실행하기 위한 자바스크립트 가상 머신이 포함되어 있으며 이 스레드를 JS 스레드라고 합니다.
-
-UI 또는 해당 속성에 대해 작업을 수행해야 할 때마다 UI 스레드 에서 작업을 수행해야 합니다 . 따라서 JS 스레드는 JSON 메시지를 UI 스레드 로 보내고 UI 에서 필요한 변경을 수행합니다 .
-
-UI 스레드 와 JS 스레드 간의 통신은 브리지에 의해 수행되며 본질적으로 완전히 비동기적입니다.
-
-<img width="700" src="https://github.com/MeetUp1/Meet_UP-client/assets/107290583/c5910773-18e7-4aa2-be56-86e511e57d9f">
-
-React Native에서 애니메이션을 적용하려면 뷰에 애니메이션을 적용할 수 있도록 UI 스레드로 메시지를 보내야 합니다.
-
-useNativeDriver를 true로 설정하면 React Native는 JS 스레드에서 UI로 애니메이션을 시작하기만 하고 애니메이션 값 업데이트를 포함한 모든 애니메이션 계산은 네이티브 측에서 수행됩니다. 즉 애니메이션 연산이 JS 스레드가 아닌 네이티브 스레드에서 직접 수행하여. JavaScript 스레드가 블로킹되거나, 느려질 때 애니메이션 성능에 영향을 주는 것을 방지하여 애니메이션의 성능을 향상시킵니다.
-
-useNativeDriver가 false로 설정되면 react-native는 JS 스레드의 모든 것을 계산하고 여러 메시지를 기본으로 보내 애니메이션 값과 UI를 업데이트합니다.(기본값)
-
-<img width="700" src="https://github.com/MeetUp1/Meet_UP-client/assets/107290583/807ff041-7e00-4e7e-94b6-51d2c9b613e0">
-
-하지만 이러한 장점들도 있지만 단점도 있습니다. 이러한 단점으로 인해 저는 제프로젝트에 이러한 문제가 발생했습니다.
-스레드가 많은 메시지로 막히면 애니메이션이 제때 시작되지 않아 지연이 발생하였습니다. 하지만 애니메이션은 사용자 상호 작용의 중요한 부분이기 때문에 매끄러워야 하기때문에 Reanimated 2 라이브러리를 사용하여 문제를 해결 하였습니다.
-
-Reanimated 2는 UI 스레드에 존재하는 스레드를 생성합니다. 이 스레드에는 작은 자바스크립트 코드 조각이 포함되어 있으며 JSI의 도움으로 UI 스레드와 직접 동기적으로 통신하여 UI를 애니메이션할 수 있습니다. Reanimated 2 스레드와 메인 JS 스레드 간의 통신도 JSI로 이루어집니다.
-
-여기서 말하는 작은 자바스크립트 코드는 "worklet"을 의미합니다. Worklet은 Reanimated 2에서 도입한 개념으로, 일반적으로 UI 스레드에서 동작하는 작은 JavaScript 함수를 의미합니다.
-
-현재 발생하는 문제는 복잡한 애니메이션을 만드는 동안 처리해야 할 많은 계산과 제스처가 있으며 기본 JS 스레드가 이미 비즈니스 로직을 실행하는 데 매우 바쁘고 애니메이션이 지연되는 경우가 발생하고 있어 추가 스레드를 사용하여 생성하면 애니메이션과 제스처 기반 로직을 메인 JS 스레드에서 중단 없이 실행할 수 있는 별도의 장소로 옮길 수 있습니다.
-
-<img width="500" src="https://github.com/MeetUp1/Meet_UP-client/assets/107290583/d2139ca7-e8d3-45b9-8eac-3097aa92662b">
-
-마지막으로 애니메이션이 종료된후 날짜의 상태와 데이터를 업데이트 해야하는데 상태 업데이트는 기본 JS 스레드에서만 수행할 수 있습니다. 하지만 Reanimated 2의 runOnJS로 JS 스레드의 함수 호출을 큐에 넣을 수 있습니다. 따라서 runOnJS로 UI 스레드와 JavaScript 스레드 사이에서 동기화 문제를 해결하였습니다.
-
-<img width="700" src="https://github.com/MeetUp1/Meet_UP-client/assets/107290583/41186e8a-fa07-4340-a808-37d14fc3a396">
-
-```javascript
-<Animated.View style={animatedStyle}>
-  <View style={styles.monthWrapper}>
-    <CreateMonthView
-      month={month}
-      year={year}
-      selectedDate={selectedDate}
-      setSelectedDate={setSelectedDate}
-    />
-  </View>
-</Animated.View>;
-
-const onPrevMonth = () => {
-  const newDate = new Date(year, month - 1, 1);
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  runOnJS(setDate)(newDate);
-
-  if (
-    today.getMonth() === newDate.getMonth() &&
-    today.getFullYear() === newDate.getFullYear()
-  ) {
-    runOnJS(setSelectedDate)(today);
-  } else {
-    newDate.setHours(0, 0, 0, 0);
-    runOnJS(setSelectedDate)(newDate);
-  }
-};
-```
-
-위코드드는 현재 프로젝트 에서 사용된 코드 입니다. 이처럼 애니메이션이 실행하면서 정상적으로 상태가 업데이트 되지않는 문제를 reanimated로 문제를 해결하였습니다.
-
-![화면_기록_2023-06-07_오전_10_14_21_AdobeExpress](https://github.com/MeetUp1/Meet_UP-client/assets/107290583/2e1f451e-4d36-49b8-b41e-2d29d3816ec7)
-
-위와같이 화면을 슬라이드애니메이션을 진행하며 함수가 동작하게 프로그램을 작성해주었습니다.
-
-<br>
-
-### 4) React Native에서의 플랫폼 간의 차이
-
-React Native는 크로스 플랫폼 개발을 목표로 하지만, iOS와 Android 간에는 기본적인 차이가 있습니다. 따라서 코드에서 플랫폼별 차이를 조건문을 통해서 차이점을 처리해 주었습니다.
-<br>
-이번 프로젝트를 진행하면서 나타났던 차이점중 하나는 iOS와 Android의 `date` 객체가 다르게 화면에 출력된다는 것이였습니다. 이를 해결하기위해 아래 코드와 같이 조건문을 통해서 해결하였습니다.
-
-```javascript
-<Text style={styles.cardText}>
-  {Platform.OS === "android"
-    ? new Date(meeting.startTime).toLocaleString().slice(0, 16)
-    : new Date(meeting.startTime).toLocaleString()[20] === "0"
-    ? new Date(meeting.startTime).toLocaleString().slice(0, 21)
-    : new Date(meeting.startTime).toLocaleString().slice(0, 20)}
-</Text>
-```
-
-<br>
-
-### 5) React Native에서는 페이지의 주소가 없는데 어떻게 페이지 이동을 해야하지?
-
-React에서는 Router를 사용하여 페이지의 주소로 페이지를 이동했지만 React Native에서는 페이지 이동을 위해서는 Navigation을 사용하여 페이지 이동을 해야 합니다.
-<br>
-React Native에서의 Navigation을 사용할 수 있는 방법으로는 StackNavigator, TabNavigator, DrawerNavigator 있습니다. 이번 프로젝트에서 사용한 Navigation 방법으로는 StackNavigator을 사용하였습니다.
-<br>
-StackNavigator을 사용한 이유는 다음과 같습니다.
-
-1. 직관적인 사용자 경험: StackNavigator는 화면을 쌓듯이 새로운 화면을 이전 화면 위에 올림으로써 사용자에게 직관적인 경험을 제공합니다. 사용자가 앱 내에서 원활하게 화면을 이동하고 이전 화면으로 돌아갈 수 있도록 도와줍니다.
-   <br>
-2. 기본 제공되는 애니메이션 및 전환 효과: StackNavigator는 기본적으로 제공되는 애니메이션 및 전환 효과를 가지고 있어, 별도의 커스터마이징 없이도 앱에서 깔끔한 전환 경험을 제공할 수 있습니다.
-   <br>
-
-하지만 StackNavigator을 사용하면서 발생한 문제점이 발생하였습니다. StackNavigator는 화면이 쌓이는 형식의 내비게이션 구조를 제공합니다. 즉, 앱 내에서 한 화면에서 다른 화면으로 이동할 때마다 새로운 화면이 이전 화면 위에 쌓이는 것처럼 표현됩니다.
-<br>
-StackNavigator는 화면이 mount, unmount되지 않아서 `useEffect`가 원하는 동작을 하지않는 경우가 발생을하였습니다. 이를 해결하기위해 react-navigation/native에서 제공해주는 `useFocusEffect`를 사용했습니다.
-<br>
-`useFocusEffect`의 역할은 화면이 포커스될 때마다 특정 동작을 실행하도록 합니다. 이를 통해 화면 전환 시에 필요한 데이터 업데이트, API 호출 등의 작업을 적절히 처리할 수 있습니다. 이러한 방법으로 문제를 해결 할 수 있었습니다.
-<br>
-아래의 코드는 프로젝트에서 `useFocusEffect`를 사용한 코드입니다.
-
-```javascript
-useFocusEffect(
-  useCallback(() => {
-    async function fetchData() {
-      const response = await axios.get(
-        `${LOGIN_API_URL}/api/users/${currentUser.id}/meetings`,
-      );
-      const meetings = response.data;
-      setMeetingList(meetings);
-    }
-    fetchData();
-  }, []),
-);
-```
-
 <br>
 
 # 🗓 Schedule
@@ -649,28 +437,84 @@ useFocusEffect(
 
 ### Frontend
 
-- **expo**
-  - React Native를 이용한 크로스 플랫폼 앱 개발을 쉽게 하고, 네이티브 코드 작성 없이도 다양한 네이티브 API를 사용할 수 있기 때문에 expo를 사용했습니다.
-- **react-navigation**
-  - 애플리케이션 내의 화면 전환을 쉽고 직관적으로 관리하면서, 다양한 네비게이션 패턴을 효과적으로 구현하기 위해 사용했습니다.
-- **react-redux**
-  - 전체 애플리케이션의 상태를 효과적으로 관리하고, 컴포넌트 간의 상태 공유를 간소화하기 위해 사용했습니다.
-- **ESLint**
-  - 일관된 코딩 스타일을 유지하며, 버그와 문제를 미리 발견하고 방지하기위해 사용했습니다.
+- React
+- Redux
+- React Router
+- Styled Components
+- Web Audio API
+- Canvas API
+- Socket.io
+- ESLint
+- Firebase
+- Netlify
 
 ### Backend
 
-- **Node.js**
-- **Express**
-  - Node.js 기반의 웹 애플리케이션 백엔드를 쉽게 구축하고, 라우팅, 미들웨어 설정 등의 복잡한 과정을 간소화하면서, 확장성과 유연성을 유지하기 사용했습니다.
-- **MongoDB**
-  - 데이터를 저장하고 처리하는데 유용한 NoSQL 데이터베이스로, 스키마리스한 특성을 가지며 확장성과 유연성을 제공하고, JSON 형식의 데이터를 쉽게 저장하고 검색할 수 있기 때문에 사용하였습니다.
-- **axios**
-  - 웹 브라우저와 Node.js 양측에서 작동하는 효율적인 HTTP 클라이언트 라이브러리이며, fetch에 비해 HTTP 요청을 취소하는 기능, 요청과 응답 데이터를 자동으로 JSON 형식으로 변환하는 기능, 네트워크 에러나 요청 시간 초과 등의 경우에 요청을 자동으로 재시도하는 기능 등의 추가적인 기능들을 제공하기 때문에 사용했습니다.
-- **ESLint**
+- Node.js
+- Express
+- MongoDB
+- Mongoose
+- Socket.io
+- ESLint
+- AWS S3
+- AWS Elastic Beanstalk
 
+<br>
+<br>
+
+# ✅ Test
+
+- Frontend: React Testing Library, Jest
+- Backend: Jest, Supertest
+- E2E: Puppeteer
+
+<br>
+<br>
+
+# 🚀 Deployment
+
+- Server: [AWS Elastic Beanstalk](https://docs.aws.amazon.com/ko_kr/elasticbeanstalk/latest/dg/Welcome.html)
+- Client: [Netlify](https://www.netlify.com/)
+
+<br>
 <br>
 
 # 🏠 Members
 
-- [이상혁](https://github.com/HyukE) : mign2ki2@gmail.com
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/oyobbeb">
+        <img src="https://avatars.githubusercontent.com/u/113571767?v=4" alt="정영빈 프로필" width="200px" height="200px" />
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/HyukE">
+	      <img src="https://avatars.githubusercontent.com/u/107290583?v=4" alt="이상혁 프로필" width="200px" height="200px" />
+    </td>
+    <td align="center">
+      <a href="https://github.com/shuh319">
+	      <img src="https://avatars.githubusercontent.com/u/115068443?v=4" alt="허수빈 프로필" width="200px" height="200px" />
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <ul>
+        <li><a href="https://avatars.githubusercontent.com/u/113571767?v=4">Yeongbin Jeong 정영빈</a></li>
+        <li>oyobbeb@gmail.com</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li><a href="https://avatars.githubusercontent.com/u/107290583?v=4">Sanghyuk Lee 이상혁</a></li>
+        <li>mign2ki2@gmail.com</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li><a href="https://avatars.githubusercontent.com/u/115068443?v=4">Subin Heo</a></li>
+        <li>shuh319@gmail.com</li>
+      </ul>
+    </td>
+  </tr>
+</table>
